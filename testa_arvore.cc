@@ -89,6 +89,16 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 			REQUIRE (error == 1);
 		}
 	} // Deleting a node
+
+	SECTION ( "Deleting a subtree" )
+	{
+		int error;
+		TreeNode* parent = new (std::nothrow) TreeNode();
+		TreeNode* son = new (std::nothrow) TreeNode();
+
+		error = DeleteSubtree (&parent);
+		REQUIRE (error == 0);
+	}
 } // TEST_CASE
 
 } // namespace tree

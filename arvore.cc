@@ -56,4 +56,23 @@ int DeleteNode (TreeNode** n)
 	}
 } // DeleteNode
 
+int DeleteSubtree (TreeNode** n)
+{
+	int error = 0;
+
+	if ((*n)->left_node != NULL)
+	{
+		error += DeleteSubtree (&((*n)->left_node));
+	}
+
+	if ((*n)->right_node != NULL)
+	{
+		error += DeleteSubtree (&((*n)->right_node));
+	}
+
+	error += DeleteNode (n);
+
+	return error;
+} //DeleteSubtree
+
 } // namespace tree

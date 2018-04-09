@@ -32,6 +32,8 @@ int AddLeftNode (TreeNode* n);
 
 int DeleteNode (TreeNode** n);
 
+int DeleteSubtree (TreeNode** n);
+
 } // namespace tree
 
 
