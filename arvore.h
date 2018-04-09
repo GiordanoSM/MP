@@ -35,6 +35,8 @@ int DeleteNode (TreeNode** n);
 
 int DeleteSubtree (TreeNode** n);
 
+int DeleteTree (Tree* t);
+
 } // namespace tree
 
 

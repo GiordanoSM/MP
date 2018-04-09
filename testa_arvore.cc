@@ -108,7 +108,22 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 			error = DeleteSubtree (&parent);
 			REQUIRE (error == -1);
 		}
-	}
+	} // Deleting a subtree
+
+	SECTION ( "Deleting the tree" )
+	{
+		int error;
+		Tree t;
+		CreateTree (&t);
+		AddLeftNode (t.root);
+		AddRightNode (t.root->left_node);
+
+		error = DeleteTree (&t);
+
+		REQUIRE (error == 0); 
+		REQUIRE (t.root == NULL);
+
+	} // Deleting the tree
 } // TEST_CASE
 
 } // namespace tree
