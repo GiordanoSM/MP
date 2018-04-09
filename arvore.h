@@ -12,8 +12,8 @@ struct TreeNode {
 
 };
 
-
 typedef struct TreeNode TreeNode;
+
 
 struct Tree {
 	
@@ -23,11 +23,14 @@ struct Tree {
 
 typedef struct Tree Tree;
 
+
 int CreateTree (Tree* t);
 
 int AddRightNode (TreeNode* n);
 
 int AddLeftNode (TreeNode* n);
+
+void DeleteNode (TreeNode** n);
 
 } // namespace tree
 

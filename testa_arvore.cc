@@ -8,7 +8,7 @@ namespace tree {
 
 TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 {
-	TreeNode* n = new TreeNode();
+	TreeNode* n = new (std::nothrow) TreeNode();
 
 
 	SECTION ( "Creating a Tree" )
@@ -70,6 +70,18 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 		} // Left Node
 	} // Adding a node
 
+	SECTION ( "Deleting a node" )
+	{
+		int error;
+		TreeNode* parent = new (std::nothrow) TreeNode();
+
+		SECTION ( "Without sons" )
+		{
+			DeleteNode (&parent);
+			REQUIRE (parent == NULL);
+		}
+
+	} // Deleting a node
 } // TEST_CASE
 
 } // namespace tree
