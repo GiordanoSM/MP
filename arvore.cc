@@ -29,4 +29,16 @@ int AddRightNode (TreeNode* n)
 		return 1;
 } // AddRightNode
 
+int AddLeftNode (TreeNode* n)
+{
+	if(n->left_node == NULL)
+	{
+		n->left_node = new (std::nothrow) TreeNode();
+		return 0;
+	}
+
+	else 
+		return 1;
+} // AddLeftNode
+
 } // namespace tree

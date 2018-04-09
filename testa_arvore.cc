@@ -29,28 +29,47 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 			error = CreateTree(t);
 			REQUIRE (error == 1);
 		}
-	} // Creating Tree
+	} // Creating a Tree
 
 	SECTION ( "Adding a node to the tree" )
 	{
 		SECTION ( "Right node" )
 		{
+			int error;
+
 			SECTION ( "New node" )
 			{
-				int error;
 				error = AddRightNode (n);
 				REQUIRE (error == 0);
 			}
 
 			SECTION ( "Node already exists" )
 			{
-				int error;
 				AddRightNode (n);
 				error = AddRightNode (n);
 				REQUIRE (error == 1);
 			}
 		} // Right Node
+
+		SECTION ( "Left node" )
+		{	
+			int error;
+
+			SECTION ( "New node" )
+			{
+				error = AddLeftNode (n);
+				REQUIRE (error == 0);
+			}
+
+			SECTION ( "Node already exists" )
+			{
+				AddLeftNode (n);
+				error = AddLeftNode (n);
+				REQUIRE (error == 1);
+			}
+		} // Left Node
 	} // Adding a node
-}
+
+} // TEST_CASE
 
 } // namespace tree

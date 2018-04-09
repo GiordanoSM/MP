@@ -8,6 +8,8 @@ namespace tree {
 struct TreeNode {
 
 	struct TreeNode* right_node = NULL;
+	struct TreeNode* left_node = NULL;
+
 };
 
 
@@ -24,6 +26,8 @@ typedef struct Tree Tree;
 int CreateTree (Tree* t);
 
 int AddRightNode (TreeNode* n);
+
+int AddLeftNode (TreeNode* n);
 
 } // namespace tree
 
