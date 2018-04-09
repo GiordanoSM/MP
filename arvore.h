@@ -30,7 +30,7 @@ int AddRightNode (TreeNode* n);
 
 int AddLeftNode (TreeNode* n);
 
-void DeleteNode (TreeNode** n);
+int DeleteNode (TreeNode** n);
 
 } // namespace tree
 

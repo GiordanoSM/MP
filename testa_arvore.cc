@@ -74,6 +74,7 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 	{
 		int error;
 		TreeNode* parent = new (std::nothrow) TreeNode();
+		TreeNode* son = new (std::nothrow) TreeNode();
 
 		SECTION ( "Without sons" )
 		{
@@ -81,6 +82,12 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 			REQUIRE (parent == NULL);
 		}
 
+		SECTION ( "With sons" )
+		{
+			AddLeftNode (parent);
+			error = DeleteNode (&parent);
+			REQUIRE (error == 1);
+		}
 	} // Deleting a node
 } // TEST_CASE
 

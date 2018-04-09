@@ -41,10 +41,19 @@ int AddLeftNode (TreeNode* n)
 		return 1;
 } // AddLeftNode
 
-void DeleteNode (TreeNode** n)
+int DeleteNode (TreeNode** n)
 {
-	delete *n;
-	*n = NULL;
+	if((*n)->left_node == NULL && (*n)->right_node == NULL)
+	{
+		delete *n;
+		*n = NULL;
+		return 0;
+	}
+
+	else 
+	{
+		return 1;
+	}
 } // DeleteNode
 
 } // namespace tree
