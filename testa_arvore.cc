@@ -74,7 +74,6 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 	{
 		int error;
 		TreeNode* parent = new (std::nothrow) TreeNode();
-		TreeNode* son = new (std::nothrow) TreeNode();
 
 		SECTION ( "Without sons" )
 		{
@@ -94,10 +93,21 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 	{
 		int error;
 		TreeNode* parent = new (std::nothrow) TreeNode();
-		TreeNode* son = new (std::nothrow) TreeNode();
+		AddLeftNode (parent);
+		AddRightNode (parent->left_node);
 
-		error = DeleteSubtree (&parent);
-		REQUIRE (error == 0);
+
+		SECTION ( "Not the root of the tree" )
+		{
+			error = DeleteSubtree (&parent->left_node);
+			REQUIRE (error == 0);
+		}
+
+		SECTION ( "The root of the tree" )
+		{
+			error = DeleteSubtree (&parent);
+			REQUIRE (error == -1);
+		}
 	}
 } // TEST_CASE
 

@@ -22,6 +22,7 @@ int AddRightNode (TreeNode* n)
 	if(n->right_node == NULL)
 	{
 		n->right_node = new (std::nothrow) TreeNode();
+		n->right_node->father_node = n;
 		return 0;
 	}
 
@@ -34,6 +35,7 @@ int AddLeftNode (TreeNode* n)
 	if(n->left_node == NULL)
 	{
 		n->left_node = new (std::nothrow) TreeNode();
+		n->left_node->father_node = n;
 		return 0;
 	}
 
@@ -60,18 +62,24 @@ int DeleteSubtree (TreeNode** n)
 {
 	int error = 0;
 
-	if ((*n)->left_node != NULL)
+	if ((*n)->father_node != NULL) // Caso n for a raiz da árvore
 	{
-		error += DeleteSubtree (&((*n)->left_node));
-	}
+		if ((*n)->left_node != NULL)
+		{
+			error += DeleteSubtree (&((*n)->left_node));
+		}
 
-	if ((*n)->right_node != NULL)
-	{
-		error += DeleteSubtree (&((*n)->right_node));
-	}
+		if ((*n)->right_node != NULL)
+		{
+			error += DeleteSubtree (&((*n)->right_node));
+		}
 
-	error += DeleteNode (n);
+		error += DeleteNode (n);
+	} // father_node
 
+	else 
+		error = -1;
+	
 	return error;
 } //DeleteSubtree
 

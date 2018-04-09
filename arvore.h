@@ -9,6 +9,7 @@ struct TreeNode {
 
 	struct TreeNode* right_node = NULL;
 	struct TreeNode* left_node = NULL;
+	struct TreeNode* father_node = NULL;
 
 };
 
