@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <iostream>
+#include <fstream>
 
 namespace tree {
 
@@ -102,5 +103,21 @@ void ChangeNodeData (TreeNode* n, std::string s)
 {
 	n->message = s;
 } // Change Data
+
+int SaveTree (Tree* t, std::string file_name)
+{
+	int error = 0;
+	std::ofstream myfile;
+	myfile.open (file_name, std::ios::out | std::ios::trunc);
+
+	error += myfile.is_open();
+	if (error == 0)
+		return 1;
+
+	error = 0;
+
+	myfile.close();
+	return error;
+}
 
 } // namespace tree

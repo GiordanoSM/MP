@@ -1,7 +1,6 @@
 #define CATCH_CONFIG_MAIN
 
 #include "../framework/catch.h"
-
 #include "../include/arvore.h"
 
 namespace tree {
@@ -134,6 +133,20 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 
 		REQUIRE (error == 0);
 	} // Changing data
+
+	SECTION ( "Saving the tree" )
+	{
+		int error;
+		Tree t;
+		CreateTree (&t);
+		AddLeftNode (t.root);
+		AddRightNode (t.root->left_node);
+		std::string file_name = "name_file.txt";
+
+		error = SaveTree (&t, file_name);
+
+		REQUIRE (error == 0);
+	} // Saving tree
 
 } // TEST_CASE
 

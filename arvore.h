@@ -40,6 +40,8 @@ int DeleteTree (Tree* t);
 
 void ChangeNodeData (TreeNode* n, std::string s);
 
+int SaveTree (Tree* t, std::string file_name);
+
 } // namespace tree
 
 
