@@ -122,8 +122,19 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 
 		REQUIRE (error == 0); 
 		REQUIRE (t.root == NULL);
-
 	} // Deleting the tree
+
+	SECTION ( "Changing the node's data" )
+	{
+		int error;
+		std::string s = "The color of the object is blue?";
+		ChangeNodeData (n, s);
+
+		error = (n->message != s);
+
+		REQUIRE (error == 0);
+	} // Changing data
+
 } // TEST_CASE
 
 } // namespace tree

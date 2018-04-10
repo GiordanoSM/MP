@@ -98,4 +98,9 @@ int DeleteTree (Tree* t)
 	return error;
 } // DeleteTree
 
+void ChangeNodeData (TreeNode* n, std::string s)
+{
+	n->message = s;
+} // Change Data
+
 } // namespace tree

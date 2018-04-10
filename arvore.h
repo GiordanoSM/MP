@@ -10,6 +10,7 @@ struct TreeNode {
 	struct TreeNode* right_node = NULL;
 	struct TreeNode* left_node = NULL;
 	struct TreeNode* father_node = NULL;
+	std::string message;
 
 };
 
@@ -36,6 +37,8 @@ int DeleteNode (TreeNode** n);
 int DeleteSubtree (TreeNode** n);
 
 int DeleteTree (Tree* t);
+
+void ChangeNodeData (TreeNode* n, std::string s);
 
 } // namespace tree
 
