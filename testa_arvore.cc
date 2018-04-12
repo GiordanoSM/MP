@@ -7,6 +7,8 @@ namespace tree {
 
 TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 {
+	int leaf = 1;
+	int not_leaf = 0;
 	TreeNode* n = new (std::nothrow) TreeNode();
 
 
@@ -40,6 +42,9 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 			{
 				error = AddRightNode (n);
 				REQUIRE (error == 0);
+				REQUIRE (n->defining_element == not_leaf);
+				REQUIRE (n->right_node->father_node == n);
+				REQUIRE (n->right_node->defining_element == leaf);
 			}
 
 			SECTION ( "Node already exists" )
@@ -58,6 +63,9 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 			{
 				error = AddLeftNode (n);
 				REQUIRE (error == 0);
+				REQUIRE (n->defining_element == not_leaf);
+				REQUIRE (n->left_node->father_node == n);
+				REQUIRE (n->left_node->defining_element == leaf);
 			}
 
 			SECTION ( "Node already exists" )
@@ -85,7 +93,16 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 			AddLeftNode (parent);
 			error = DeleteNode (&parent);
 			REQUIRE (error == 1);
+			REQUIRE (parent != NULL);
 		}
+
+		SECTION ( "With a father node" )
+		{
+			AddLeftNode (parent);
+			error = DeleteNode (&parent->left_node);
+			REQUIRE (parent->defining_element == leaf);
+		}
+
 	} // Deleting a node
 
 	SECTION ( "Deleting a subtree" )
@@ -142,6 +159,13 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 		AddLeftNode (t.root);
 		AddRightNode (t.root->left_node);
 		std::string file_name = "name_file.txt";
+
+		SECTION ( "Writing the tree" )
+		{
+			std::string my_tree;
+			error = WriteTree (t.root, my_tree);
+			REQUIRE (error == 0);
+		}
 
 		error = SaveTree (&t, file_name);
 

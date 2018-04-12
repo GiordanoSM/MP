@@ -2,7 +2,8 @@
 
 #include <stdlib.h>
 #include <iostream>
-#include <fstream>
+
+#include <bitset>
 
 namespace tree {
 
@@ -20,10 +21,14 @@ int CreateTree (Tree* t)
 
 int AddRightNode (TreeNode* n)
 {
+	int leaf = 1;
+	int not_leaf = 0;
 	if(n->right_node == NULL)
 	{
 		n->right_node = new (std::nothrow) TreeNode();
 		n->right_node->father_node = n;
+		n->right_node->defining_element = leaf;
+		n->defining_element = not_leaf;
 		return 0;
 	}
 
@@ -33,10 +38,14 @@ int AddRightNode (TreeNode* n)
 
 int AddLeftNode (TreeNode* n)
 {
+	int leaf = 1;
+	int not_leaf = 0;
 	if(n->left_node == NULL)
 	{
 		n->left_node = new (std::nothrow) TreeNode();
 		n->left_node->father_node = n;
+		n->left_node->defining_element = leaf;
+		n->defining_element = not_leaf;
 		return 0;
 	}
 
@@ -46,10 +55,16 @@ int AddLeftNode (TreeNode* n)
 
 int DeleteNode (TreeNode** n)
 {
+	int leaf = 1;
+	TreeNode* father_node = (*n)->father_node;
 	if((*n)->left_node == NULL && (*n)->right_node == NULL)
 	{
 		delete *n;
 		*n = NULL;
+
+		if (father_node != NULL && father_node->left_node == NULL && father_node->right_node == NULL)
+			father_node->defining_element = leaf;
+
 		return 0;
 	}
 
@@ -107,17 +122,27 @@ void ChangeNodeData (TreeNode* n, std::string s)
 int SaveTree (Tree* t, std::string file_name)
 {
 	int error = 0;
-	std::ofstream myfile;
-	myfile.open (file_name, std::ios::out | std::ios::trunc);
+	std::string my_tree;
+	std::ofstream my_file;
+	my_file.open (file_name, std::ios::out | std::ios::trunc);
 
-	error += myfile.is_open();
+	error += my_file.is_open();
 	if (error == 0)
 		return 1;
 
 	error = 0;
 
-	myfile.close();
+	error += WriteTree (t->root, my_tree);
+
+	my_file << my_tree;
+
+	my_file.close();
 	return error;
-}
+} // ChangeNodeData
+
+int WriteTree (TreeNode* n, std::string my_tree)
+{
+	return 0;
+} // WriteTree
 
 } // namespace tree

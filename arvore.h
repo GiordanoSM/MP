@@ -2,6 +2,8 @@
 #define MP_SRC_ARVORE_H_
 
 #include <string>
+#include <bitset>
+#include <fstream>
 
 namespace tree {
 
@@ -11,6 +13,7 @@ struct TreeNode {
 	struct TreeNode* left_node = NULL;
 	struct TreeNode* father_node = NULL;
 	std::string message;
+	int defining_element; // Pode adquirir o valor folha (1) ou o valor nao_folha (2)
 
 };
 
@@ -41,6 +44,8 @@ int DeleteTree (Tree* t);
 void ChangeNodeData (TreeNode* n, std::string s);
 
 int SaveTree (Tree* t, std::string file_name);
+
+int WriteTree (TreeNode* n, std::ofstream my_file);
 
 } // namespace tree
 
