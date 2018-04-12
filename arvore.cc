@@ -170,4 +170,9 @@ int WriteTree (TreeNode* n, std::string* my_tree)
 	return error;
 } // WriteTree
 
+int LoadTree (Tree* t, std::string file_name)
+{
+	return 0;
+}
+
 } // namespace tree

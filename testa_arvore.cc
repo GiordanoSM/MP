@@ -174,6 +174,17 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 		REQUIRE (error == 0);
 	} // Saving tree
 
+	SECTION ( "Loading the tree" )
+	{
+		int error;
+		Tree t;
+		CreateTree (&t);
+		std::string file_name = "name_file.txt";
+
+		error = LoadTree (&t, file_name);
+		REQUIRE (error == 0);
+	} // Loading tree
+
 } // TEST_CASE
 
 } // namespace tree

@@ -46,6 +46,8 @@ int SaveTree (Tree* t, std::string file_name);
 
 int WriteTree (TreeNode* n, std::string* my_file);
 
+int LoadTree (Tree* t, std::string file_name);
+
 } // namespace tree
 
 
