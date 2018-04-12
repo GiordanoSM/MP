@@ -2,7 +2,6 @@
 #define MP_SRC_ARVORE_H_
 
 #include <string>
-#include <bitset>
 #include <fstream>
 
 namespace tree {
@@ -45,7 +44,7 @@ void ChangeNodeData (TreeNode* n, std::string s);
 
 int SaveTree (Tree* t, std::string file_name);
 
-int WriteTree (TreeNode* n, std::string my_file);
+int WriteTree (TreeNode* n, std::string* my_file);
 
 } // namespace tree
 

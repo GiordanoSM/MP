@@ -157,13 +157,15 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 		Tree t;
 		CreateTree (&t);
 		AddLeftNode (t.root);
+		ChangeNodeData (t.root->left_node, "Hello");
 		AddRightNode (t.root->left_node);
+		ChangeNodeData (t.root->left_node->right_node, "What?");
 		std::string file_name = "name_file.txt";
 
 		SECTION ( "Writing the tree" )
 		{
 			std::string my_tree;
-			error = WriteTree (t.root, my_tree);
+			error = WriteTree (t.root, &my_tree);
 			REQUIRE (error == 0);
 		}
 

@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include <iostream>
 
-#include <bitset>
-
 namespace tree {
 
 int CreateTree (Tree* t) 
@@ -132,7 +130,7 @@ int SaveTree (Tree* t, std::string file_name)
 
 	error = 0;
 
-	error += WriteTree (t->root, my_tree);
+	error += WriteTree (t->root, &my_tree);
 
 	my_file << my_tree;
 
@@ -140,9 +138,36 @@ int SaveTree (Tree* t, std::string file_name)
 	return error;
 } // ChangeNodeData
 
-int WriteTree (TreeNode* n, std::string my_tree)
+int WriteTree (TreeNode* n, std::string* my_tree)
 {
-	return 0;
+	int error = 0;
+	std::string old_my_tree = *my_tree;
+	const char divider = '|';
+	const char leaf_indicator = '#';
+
+	(*my_tree) += n->message + divider;
+
+	if (my_tree->compare (old_my_tree) == 0)
+		error += 1;
+
+	if (n->left_node == NULL && n->right_node == NULL)
+		(*my_tree) += leaf_indicator;
+
+
+	else 
+	{
+		if (n->left_node != NULL)
+		{
+			error += WriteTree (n->left_node, my_tree);
+		}
+
+		if (n->right_node != NULL)
+		{
+			error += WriteTree (n->right_node, my_tree);
+		}
+	}
+
+	return error;
 } // WriteTree
 
 } // namespace tree
