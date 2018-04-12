@@ -45,7 +45,7 @@ void ChangeNodeData (TreeNode* n, std::string s);
 
 int SaveTree (Tree* t, std::string file_name);
 
-int WriteTree (TreeNode* n, std::ofstream my_file);
+int WriteTree (TreeNode* n, std::string my_file);
 
 } // namespace tree
 
