@@ -1,7 +1,10 @@
 #define CATCH_CONFIG_MAIN
 
+#include <iostream>
+
 #include "../framework/catch.h"
 #include "../include/arvore.h"
+#include "../include/jogo_interface.h"
 
 namespace tree {
 
@@ -210,6 +213,37 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 	} //Tree in file
 
 	delete n;
+} // TEST_CASE
+
+TEST_CASE ( "Game Basics", "Tree operators with user interface")
+{
+	SECTION ( "Starting the tree" )
+	{
+		int error;
+		Tree t;
+		
+		SECTION ( "Loading the tree" )
+		{
+			std::cout << "-------------- TEST: Do it right --------------\n\n";
+			error = StartTree (&t);
+			REQUIRE (error == 0);
+
+			SECTION ( "Wrong file" )
+			{
+			std::cout << "\n-------------- TEST: Write wrong file name --------------\n\n";
+			error = StartTree (&t);
+			REQUIRE (error == 1);
+			}
+		}
+
+		SECTION ( "Wrong command" )
+		{
+			std::cout <<  "-------------- TEST: Write wrong command --------------\n\n";
+			error = StartTree (&t);
+			REQUIRE (error == -1);
+		}
+	} // Starting tree
+
 } // TEST_CASE
 
 } // namespace tree
