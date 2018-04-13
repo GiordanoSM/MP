@@ -48,6 +48,10 @@ int WriteTree (TreeNode* n, std::string* my_file);
 
 int LoadTree (Tree* t, std::string file_name);
 
+int ReadTree (TreeNode* n, std::string* my_tree, int* counter);
+
+void GenericTree (Tree* t);
+
 } // namespace tree
 
 

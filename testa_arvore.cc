@@ -151,40 +151,53 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 		REQUIRE (error == 0);
 	} // Changing data
 
-	SECTION ( "Saving the tree" )
+	SECTION ( "Tree in file" )
 	{
-		int error;
 		Tree t;
-		CreateTree (&t);
-		AddLeftNode (t.root);
-		ChangeNodeData (t.root->left_node, "Hello");
-		AddRightNode (t.root->left_node);
-		ChangeNodeData (t.root->left_node->right_node, "What?");
+		GenericTree (&t);
 		std::string file_name = "name_file.txt";
 
-		SECTION ( "Writing the tree" )
+		SECTION ( "Saving the tree" )
 		{
-			std::string my_tree;
-			error = WriteTree (t.root, &my_tree);
+			int error;
+
+			SECTION ( "Writing the tree" )
+			{
+				std::string my_tree;
+				error = WriteTree (t.root, &my_tree);
+				REQUIRE (error == 0);
+			}
+
+			error = SaveTree (&t, file_name);
+
 			REQUIRE (error == 0);
-		}
+		} // Saving tree
 
-		error = SaveTree (&t, file_name);
+		SECTION ( "Loading the tree" )
+		{
+			int error;
+			Tree t2;
+			CreateTree (&t2);
 
-		REQUIRE (error == 0);
-	} // Saving tree
+			SECTION ( "Reading the tree" )
+			{
+				int counter = 0;
+				std::string my_tree;
+				std::string my_tree_2;
 
-	SECTION ( "Loading the tree" )
-	{
-		int error;
-		Tree t;
-		CreateTree (&t);
-		std::string file_name = "name_file.txt";
+				WriteTree (t.root, &my_tree);
+				error = ReadTree (t2.root, &my_tree, &counter);
+				REQUIRE (error == 0);
 
-		error = LoadTree (&t, file_name);
-		REQUIRE (error == 0);
-	} // Loading tree
+				WriteTree (t2.root, &my_tree_2);
+				REQUIRE (my_tree.compare(my_tree_2) == 0);
+			}
 
+			error = LoadTree (&t, file_name);
+			REQUIRE (error == 0);
+		} // Loading tree
+
+	} //Tree in file
 } // TEST_CASE
 
 } // namespace tree

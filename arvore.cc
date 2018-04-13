@@ -124,11 +124,8 @@ int SaveTree (Tree* t, std::string file_name)
 	std::ofstream my_file;
 	my_file.open (file_name, std::ios::out | std::ios::trunc);
 
-	error += my_file.is_open();
-	if (error == 0)
+	if (my_file.is_open() == 0)
 		return 1;
-
-	error = 0;
 
 	error += WriteTree (t->root, &my_tree);
 
@@ -140,6 +137,7 @@ int SaveTree (Tree* t, std::string file_name)
 
 int WriteTree (TreeNode* n, std::string* my_tree)
 {
+	int leaf = 1;
 	int error = 0;
 	std::string old_my_tree = *my_tree;
 	const char divider = '|';
@@ -150,7 +148,7 @@ int WriteTree (TreeNode* n, std::string* my_tree)
 	if (my_tree->compare (old_my_tree) == 0)
 		error += 1;
 
-	if (n->left_node == NULL && n->right_node == NULL)
+	if (n->defining_element == leaf)
 		(*my_tree) += leaf_indicator;
 
 
@@ -172,7 +170,87 @@ int WriteTree (TreeNode* n, std::string* my_tree)
 
 int LoadTree (Tree* t, std::string file_name)
 {
-	return 0;
-}
+	int error = 0;
+	int counter = 0;
+	std::string my_tree;
+	std::ifstream my_file;
+	my_file.open (file_name, std::ios::in);
+
+	if (my_file.is_open() == 0)
+		return 1;
+
+	my_file >> my_tree;
+
+	error += ReadTree (t->root, &my_tree, &counter);
+
+	my_file.close();
+	return error;
+} // LoadTree
+
+int ReadTree (TreeNode* n, std::string* my_tree, int* counter)
+{
+	int leaf = 1;
+	int not_leaf = 0;
+	int error = 0;
+	std::string old_message = n->message;
+	const char divider = '|';
+	const char leaf_indicator = '#';
+
+	while ((*my_tree)[*counter] != divider)
+	{
+		n->message += (*my_tree)[*counter];
+		*counter += 1;
+	}
+
+	if (n->message.compare (old_message) == 0)
+		error += 1;
+
+	*counter += 1;
+
+	switch ((*my_tree)[*counter]) 
+	{
+		case '\0': 
+			break;
+
+		case leaf_indicator :
+			*counter += 1;
+			n->defining_element = leaf;
+			break;
+
+		case divider :
+			error += 1;
+			break;
+
+		default: 
+			n->defining_element = not_leaf;
+			AddLeftNode (n);
+			error += ReadTree (n->left_node, my_tree, counter);
+			AddRightNode (n);
+			error += ReadTree (n->right_node, my_tree, counter);
+	}
+	
+	return error;
+
+
+} // ReadTree
+
+void GenericTree (Tree* t)
+{
+	CreateTree (t);
+	ChangeNodeData (t->root, "Uhm");
+	AddLeftNode (t->root);
+	AddRightNode (t->root);
+	ChangeNodeData (t->root->left_node, "Hello");
+	ChangeNodeData (t->root->right_node, "Now");
+	AddRightNode (t->root->left_node);
+	AddLeftNode (t->root->left_node);
+	ChangeNodeData (t->root->left_node->right_node, "What?");
+	ChangeNodeData (t->root->left_node->left_node, "Uhull");
+	AddRightNode (t->root->right_node);
+	AddLeftNode (t->root->right_node);
+	ChangeNodeData (t->root->right_node->right_node, "What?");
+	ChangeNodeData (t->root->right_node->left_node, "THISS");
+
+} // GenericTree
 
 } // namespace tree
