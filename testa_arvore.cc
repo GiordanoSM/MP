@@ -20,7 +20,8 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 		SECTION ( "Creating a new tree" )
 		{
 			CreateTree(t);
-			REQUIRE (t->root != NULL); 
+			REQUIRE (t->root != NULL);
+			delete t->root; 
 		}
 
 		SECTION ( "Tree already exists or Tree variable was not alocated" )
@@ -45,6 +46,7 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 				REQUIRE (n->defining_element == not_leaf);
 				REQUIRE (n->right_node->father_node == n);
 				REQUIRE (n->right_node->defining_element == leaf);
+				delete n->right_node;
 			}
 
 			SECTION ( "Node already exists" )
@@ -66,6 +68,7 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 				REQUIRE (n->defining_element == not_leaf);
 				REQUIRE (n->left_node->father_node == n);
 				REQUIRE (n->left_node->defining_element == leaf);
+				delete n->left_node;
 			}
 
 			SECTION ( "Node already exists" )
@@ -94,13 +97,15 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 			error = DeleteNode (&parent);
 			REQUIRE (error == 1);
 			REQUIRE (parent != NULL);
+			delete parent->left_node;
 		}
 
 		SECTION ( "With a father node" )
 		{
 			AddLeftNode (parent);
-			error = DeleteNode (&parent->left_node);
+			DeleteNode (&parent->left_node);
 			REQUIRE (parent->defining_element == leaf);
+			delete parent->left_node;
 		}
 
 	} // Deleting a node
@@ -124,6 +129,9 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 			error = DeleteSubtree (&parent);
 			REQUIRE (error == -1);
 		}
+		//delete parent->left_node->right_node;
+		delete parent->left_node;
+		delete parent;
 	} // Deleting a subtree
 
 	SECTION ( "Deleting the tree" )
@@ -195,9 +203,13 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 
 			error = LoadTree (&t, file_name);
 			REQUIRE (error == 0);
+			DeleteTree (&t2);
 		} // Loading tree
 
+		DeleteTree (&t);
 	} //Tree in file
+
+	delete n;
 } // TEST_CASE
 
 } // namespace tree
