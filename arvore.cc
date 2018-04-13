@@ -124,12 +124,12 @@ int SaveTree (Tree* t, std::string file_name)
 	std::ofstream my_file;
 	my_file.open (file_name, std::ios::out | std::ios::trunc);
 
-	if (my_file.is_open() == 0)
+	if (my_file.is_open() == 0 || my_file.fail() != 0)
 		return 1;
 
 	error += WriteTree (t->root, &my_tree);
 
-	my_file << my_tree;
+	my_file << std::noskipws << my_tree;
 
 	my_file.close();
 	return error;
@@ -172,14 +172,18 @@ int LoadTree (Tree* t, std::string file_name)
 {
 	int error = 0;
 	int counter = 0;
+	char character;
 	std::string my_tree;
 	std::ifstream my_file;
 	my_file.open (file_name, std::ios::in);
 
-	if (my_file.is_open() == 0)
+	if (my_file.is_open() == 0 || my_file.fail() != 0)
 		return 1;
 
-	my_file >> my_tree;
+	while (my_file.get(character))
+	{
+		my_tree += character;
+	}
 
 	error += ReadTree (t->root, &my_tree, &counter);
 
@@ -234,23 +238,28 @@ int ReadTree (TreeNode* n, std::string* my_tree, int* counter)
 
 } // ReadTree
 
-void GenericTree (Tree* t)
+int GenericTree (Tree* t)
 {
-	CreateTree (t);
-	ChangeNodeData (t->root, "Uhm");
-	AddLeftNode (t->root);
-	AddRightNode (t->root);
-	ChangeNodeData (t->root->left_node, "Hello");
-	ChangeNodeData (t->root->right_node, "Now");
-	AddRightNode (t->root->left_node);
-	AddLeftNode (t->root->left_node);
-	ChangeNodeData (t->root->left_node->right_node, "What?");
-	ChangeNodeData (t->root->left_node->left_node, "Uhull");
-	AddRightNode (t->root->right_node);
-	AddLeftNode (t->root->right_node);
-	ChangeNodeData (t->root->right_node->right_node, "What?");
-	ChangeNodeData (t->root->right_node->left_node, "THISS");
+	int error = 0;
+	error += CreateTree (t);
+	ChangeNodeData (t->root, "Voce esta pensando em uma pessoa/personagem?");
 
+	error += AddLeftNode (t->root);
+	error += AddRightNode (t->root);
+	ChangeNodeData (t->root->left_node, "Voce esta pensando em um animal?");
+	ChangeNodeData (t->root->right_node, "Ela existe no mundo real?");
+
+	error += AddRightNode (t->root->left_node);
+	error += AddLeftNode (t->root->left_node);
+	ChangeNodeData (t->root->left_node->right_node, "Cachorro");
+	ChangeNodeData (t->root->left_node->left_node, "Computador");
+
+	error += AddRightNode (t->root->right_node);
+	error += AddLeftNode (t->root->right_node);
+	ChangeNodeData (t->root->right_node->right_node, "Neymar");
+	ChangeNodeData (t->root->right_node->left_node, "Super-Homem");
+
+	return error;
 } // GenericTree
 
 } // namespace tree

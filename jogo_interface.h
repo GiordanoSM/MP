@@ -10,6 +10,6 @@ namespace tree {
 
 int StartTree (Tree *t);
 
-}
+} // namespace tree
 
 #endif

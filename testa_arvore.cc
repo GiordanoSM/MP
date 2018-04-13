@@ -221,19 +221,29 @@ TEST_CASE ( "Game Basics", "Tree operators with user interface")
 	{
 		int error;
 		Tree t;
-		
+
 		SECTION ( "Loading the tree" )
 		{
-			std::cout << "-------------- TEST: Do it right --------------\n\n";
+			std::cout << "-------------- TEST: Do it right using (Arquivo)--------------\n\n";
 			error = StartTree (&t);
 			REQUIRE (error == 0);
+			DeleteTree (&t);
 
 			SECTION ( "Wrong file" )
 			{
-			std::cout << "\n-------------- TEST: Write wrong file name --------------\n\n";
+			std::cout << "\n-------------- TEST: Write wrong file name (Arquivo)--------------\n\n";
 			error = StartTree (&t);
 			REQUIRE (error == 1);
+			DeleteTree (&t);
 			}
+		}
+
+		SECTION ( "Using default tree" )
+		{
+			std::cout << "-------------- TEST: Do it right using (Default)--------------\n\n";
+			error = StartTree (&t);
+			REQUIRE (error == 0);
+			DeleteTree (&t);
 		}
 
 		SECTION ( "Wrong command" )
