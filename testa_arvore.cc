@@ -248,7 +248,7 @@ TEST_CASE ( "Game Basics", "Tree operators with user interface")
 
 		SECTION ( "Wrong command" )
 		{
-			std::cout <<  "-------------- TEST: Write wrong command --------------\n\n";
+			std::cout <<  "\n-------------- TEST: Write wrong command --------------\n\n";
 			error = StartTree (&t);
 			REQUIRE (error == -1);
 		}
@@ -259,11 +259,10 @@ TEST_CASE ( "Game Basics", "Tree operators with user interface")
 		int error;
 		Tree t;
 		GenericTree (&t);
+		TreeNode* current_location;
 
 		SECTION ( "To questions" )
 		{
-			TreeNode* current_location;
-
 			current_location = t.root;
 			error = AnswerInterpreter (&current_location, "Sim" );
 			REQUIRE (error == 0);
@@ -280,32 +279,30 @@ TEST_CASE ( "Game Basics", "Tree operators with user interface")
 			REQUIRE (current_location == t.root);
 		}
 
-			SECTION ( "To guesses" )
+		SECTION ( "To guesses" )
 		{
-			std::string old_message = current_location->message;
-
+			std::string old_message;
 			current_location = t.root->right_node->right_node;
+			
+			old_message = current_location->message;
+			
+
 			error = AnswerInterpreter (&current_location, "Sim");
 			REQUIRE (error == 0);
-			REQUIRE (current_location->message != old_message);
-
-			Delete (current_location->right_node);
-			Delete (current_location->left_node);
+			REQUIRE (current_location->message.compare(old_message) == 0);
 			current_location->message = old_message;
 
-			current_location = t.root->right_node->right_node;
 			error = AnswerInterpreter (&current_location, "Nao");
 			REQUIRE (error == 0);
-			REQUIRE (current_location->message != old_message);
+			REQUIRE (current_location->message.compare (old_message) != 0);
 
-			Delete (current_location->right_node);
-			Delete (current_location->left_node);
+			DeleteNode (&current_location->right_node);
+			DeleteNode (&current_location->left_node);
 			current_location->message = old_message;
 
-			current_location = t.root->right_node->right_node;
 			error = AnswerInterpreter (&current_location, "Outra resposta");
 			REQUIRE (error == -1);
-			REQUIRE (current_location->message == old_message);
+			REQUIRE (current_location->message.compare (old_message) == 0);
 		}
 
 		DeleteTree (&t);

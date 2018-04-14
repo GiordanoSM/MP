@@ -51,8 +51,8 @@ int AnswerInterpreter (TreeNode **current_location, std::string answer)
 	int error = 0;
 	int leaf = 1;
 	int not_leaf = 0;
-	std:string new_element;
-	std:string new_question;
+	std::string new_element;
+	std::string new_question;
 	TreeNode* old_location = *current_location;
 
 	if ((*current_location)->defining_element == not_leaf)
@@ -69,7 +69,7 @@ int AnswerInterpreter (TreeNode **current_location, std::string answer)
 		}
 		else 
 		{
-			cout << "\n **** Por favor, dê uma resposta do tipo Sim ou Nao.\n\n";
+			std::cout << "\n **** Por favor, de uma resposta do tipo Sim ou Nao.\n\n";
 			return -1;
 		}
 
@@ -79,23 +79,23 @@ int AnswerInterpreter (TreeNode **current_location, std::string answer)
 	{ 
 		if ( answer == "Sim" || answer == "sim" || answer == "SIM" )
 		{
-			cout << "\n$$$$$ Haha! Eu ganhei denovo. $$$$$\n\n";
+			std::cout << "\n$$$$$ Haha! Eu ganhei denovo. $$$$$\n\n";
 		} // Sim
 
 		else if ( answer == "Nao" || answer == "nao" || answer == "NAO" )
 		{
-			cout << "\n$$$$$ Ah... Que pena. Qual era a resposta correta? $$$$$\n\n";
-			cin >> new_element;
+			std::cout << "\n$$$$$ Ah... Que pena. Qual era a resposta correta? $$$$$\n\n";
+			std::cin >> new_element;
 			getchar();
 
-			cout << "\n$$$$$ Digite a pergunta que voce a faria para diferenciar minha resposta da sua. $$$$$\n\n";
-			cin >> new_question;
+			std::cout << "\n$$$$$ Digite a pergunta que voce a faria para diferenciar minha resposta da sua. $$$$$\n\n";
+			std::cin >> new_question;
 			getchar();
 
 			while ((*current_location)->defining_element == leaf)
 			{
-				cout << "\n$$$$$ Qual seria a sua resposta a essas pergunta? (Sim/Nao) $$$$$\n\n";
-				cin << answer;
+				std::cout << "\n$$$$$ Qual seria a sua resposta a essas pergunta? (Sim/Nao) $$$$$\n\n";
+				std::cin >> answer;
 				getchar();
 
 				if ( answer == "Sim" || answer == "sim" || answer == "SIM" )
@@ -122,7 +122,7 @@ int AnswerInterpreter (TreeNode **current_location, std::string answer)
 
 				else 
 				{
-					cout << "\n **** Por favor, dê uma resposta do tipo Sim ou Nao.\n\n";
+					std::cout << "\n **** Por favor, de uma resposta do tipo Sim ou Nao.\n\n";
 				}
 
 			} // while
@@ -131,7 +131,7 @@ int AnswerInterpreter (TreeNode **current_location, std::string answer)
 
 		else 
 		{
-			cout << "\n **** Por favor, dê uma resposta do tipo Sim ou Nao.\n\n";
+			std::cout << "\n **** Por favor, de uma resposta do tipo Sim ou Nao.\n\n";
 			return -1;
 		}	
 	} // else
