@@ -254,6 +254,35 @@ TEST_CASE ( "Game Basics", "Tree operators with user interface")
 		}
 	} // Starting tree
 
+	SECTION ( "Interpreting answers" )
+	{
+		int error;
+		Tree t;
+		GenericTree (&t);
+
+		SECTION ( "To questions" )
+		{
+			TreeNode* current_location;
+
+			current_location = t.root;
+			error = AnswerInterpreter (&current_location, "Sim" );
+			REQUIRE (error == 0);
+			REQUIRE (current_location == t.root->right_node);
+
+			current_location = t.root;
+			error = AnswerInterpreter (&current_location, "Nao" );
+			REQUIRE (error == 0);
+			REQUIRE (current_location == t.root->left_node);
+
+			current_location = t.root;
+			error = AnswerInterpreter (&current_location, "Outra resposta" );
+			REQUIRE (error == 1);
+			REQUIRE (current_location == t.root);
+		}
+
+		DeleteTree (&t);
+	}
+
 } // TEST_CASE
 
 } // namespace tree

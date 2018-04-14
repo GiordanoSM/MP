@@ -43,6 +43,28 @@ int StartTree (Tree *t)
 		return -1;
 
 	return error;
+} // StartTree
+
+
+int AnswerInterpreter (TreeNode **current_location, std::string answer)
+{
+	int error;
+	TreeNode* old_location = *current_location;
+	if ( answer == "Sim" || answer == "sim" || answer == "SIM" )
+	{
+		*current_location = (*current_location)->right_node;
+		error = (old_location == *current_location);
+	}
+	else if ( answer == "Nao" || answer == "nao" || answer == "NAO" )
+	{
+		*current_location = (*current_location)->left_node;
+		error = (old_location == *current_location);
+	}
+	else 
+		return 1;
+
+	return error;
 }
+
 
 } // namespace tree

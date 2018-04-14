@@ -10,6 +10,8 @@ namespace tree {
 
 int StartTree (Tree *t);
 
+int AnswerInterpreter (TreeNode **current_location, std::string answer);
+
 } // namespace tree
 
 #endif
