@@ -48,23 +48,97 @@ int StartTree (Tree *t)
 
 int AnswerInterpreter (TreeNode **current_location, std::string answer)
 {
-	int error;
+	int error = 0;
+	int leaf = 1;
+	int not_leaf = 0;
+	std:string new_element;
+	std:string new_question;
 	TreeNode* old_location = *current_location;
-	if ( answer == "Sim" || answer == "sim" || answer == "SIM" )
+
+	if ((*current_location)->defining_element == not_leaf)
 	{
-		*current_location = (*current_location)->right_node;
-		error = (old_location == *current_location);
-	}
-	else if ( answer == "Nao" || answer == "nao" || answer == "NAO" )
-	{
-		*current_location = (*current_location)->left_node;
-		error = (old_location == *current_location);
-	}
+		if ( answer == "Sim" || answer == "sim" || answer == "SIM" )
+		{
+			*current_location = (*current_location)->right_node;
+			error = (old_location == *current_location);
+		}
+		else if ( answer == "Nao" || answer == "nao" || answer == "NAO" )
+		{
+			*current_location = (*current_location)->left_node;
+			error = (old_location == *current_location);
+		}
+		else 
+		{
+			cout << "\n **** Por favor, dê uma resposta do tipo Sim ou Nao.\n\n";
+			return -1;
+		}
+
+	} // not_leaf
+
 	else 
-		return 1;
+	{ 
+		if ( answer == "Sim" || answer == "sim" || answer == "SIM" )
+		{
+			cout << "\n$$$$$ Haha! Eu ganhei denovo. $$$$$\n\n";
+		} // Sim
+
+		else if ( answer == "Nao" || answer == "nao" || answer == "NAO" )
+		{
+			cout << "\n$$$$$ Ah... Que pena. Qual era a resposta correta? $$$$$\n\n";
+			cin >> new_element;
+			getchar();
+
+			cout << "\n$$$$$ Digite a pergunta que voce a faria para diferenciar minha resposta da sua. $$$$$\n\n";
+			cin >> new_question;
+			getchar();
+
+			while ((*current_location)->defining_element == leaf)
+			{
+				cout << "\n$$$$$ Qual seria a sua resposta a essas pergunta? (Sim/Nao) $$$$$\n\n";
+				cin << answer;
+				getchar();
+
+				if ( answer == "Sim" || answer == "sim" || answer == "SIM" )
+				{
+					error += AddRightNode (*current_location);
+					ChangeNodeData ((*current_location)->right_node, new_element);
+
+					error += AddLeftNode (*current_location);
+					ChangeNodeData ((*current_location)->left_node, (*current_location)->message);
+
+					ChangeNodeData (*current_location, new_question);
+				}
+
+				else if ( answer == "Nao" || answer == "nao" || answer == "NAO" )
+				{
+					error += AddLeftNode (*current_location);
+					ChangeNodeData ((*current_location)->left_node, new_element);
+
+					error += AddRightNode (*current_location);
+					ChangeNodeData ((*current_location)->right_node, (*current_location)->message);
+
+					ChangeNodeData (*current_location, new_question);
+				}
+
+				else 
+				{
+					cout << "\n **** Por favor, dê uma resposta do tipo Sim ou Nao.\n\n";
+				}
+
+			} // while
+
+		} // Nao
+
+		else 
+		{
+			cout << "\n **** Por favor, dê uma resposta do tipo Sim ou Nao.\n\n";
+			return -1;
+		}	
+	} // else
+
 
 	return error;
-}
+} // AnswerInterpreter
 
 
 } // namespace tree

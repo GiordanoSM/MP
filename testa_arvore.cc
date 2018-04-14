@@ -276,12 +276,40 @@ TEST_CASE ( "Game Basics", "Tree operators with user interface")
 
 			current_location = t.root;
 			error = AnswerInterpreter (&current_location, "Outra resposta" );
-			REQUIRE (error == 1);
+			REQUIRE (error == -1);
 			REQUIRE (current_location == t.root);
 		}
 
+			SECTION ( "To guesses" )
+		{
+			std::string old_message = current_location->message;
+
+			current_location = t.root->right_node->right_node;
+			error = AnswerInterpreter (&current_location, "Sim");
+			REQUIRE (error == 0);
+			REQUIRE (current_location->message != old_message);
+
+			Delete (current_location->right_node);
+			Delete (current_location->left_node);
+			current_location->message = old_message;
+
+			current_location = t.root->right_node->right_node;
+			error = AnswerInterpreter (&current_location, "Nao");
+			REQUIRE (error == 0);
+			REQUIRE (current_location->message != old_message);
+
+			Delete (current_location->right_node);
+			Delete (current_location->left_node);
+			current_location->message = old_message;
+
+			current_location = t.root->right_node->right_node;
+			error = AnswerInterpreter (&current_location, "Outra resposta");
+			REQUIRE (error == -1);
+			REQUIRE (current_location->message == old_message);
+		}
+
 		DeleteTree (&t);
-	}
+	} // Interpreting answers
 
 } // TEST_CASE
 
