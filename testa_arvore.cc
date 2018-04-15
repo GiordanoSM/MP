@@ -254,62 +254,7 @@ TEST_CASE ( "Game Basics", "Tree operators with user interface")
 		}
 	} // Starting tree
 
-	SECTION ( "Interpreting answers" )
-	{
-		int error;
-		Tree t;
-		GenericTree (&t);
-		TreeNode* current_location;
-
-		SECTION ( "To questions" )
-		{
-			current_location = t.root;
-			error = AnswerInterpreter (&current_location, "Sim" );
-			REQUIRE (error == 0);
-			REQUIRE (current_location == t.root->right_node);
-
-			current_location = t.root;
-			error = AnswerInterpreter (&current_location, "Nao" );
-			REQUIRE (error == 0);
-			REQUIRE (current_location == t.root->left_node);
-
-			current_location = t.root;
-			error = AnswerInterpreter (&current_location, "Outra resposta" );
-			REQUIRE (error == -1);
-			REQUIRE (current_location == t.root);
-		}
-
-		SECTION ( "To guesses" )
-		{
-			std::string old_message;
-			current_location = t.root->right_node->right_node; // Leaf
-			
-			old_message = current_location->message;
-			
-
-			error = AnswerInterpreter (&current_location, "Sim");
-			REQUIRE (error == 0);
-			REQUIRE (current_location->message.compare(old_message) == 0);
-			current_location->message = old_message;
-
-			error = AnswerInterpreter (&current_location, "Nao");
-			REQUIRE (error == 0);
-			REQUIRE (current_location->message.compare (old_message) != 0);
-
-			DeleteNode (&current_location->right_node);
-			DeleteNode (&current_location->left_node);
-			current_location->message = old_message;
-
-			error = AnswerInterpreter (&current_location, "Outra resposta");
-			REQUIRE (error == -1);
-			REQUIRE (current_location->message.compare (old_message) == 0);
-		}
-
-		DeleteTree (&t);
-	} // Interpreting answers
-
-
-	SECTION ( "Aditional options" )
+		SECTION ( "Aditional options" )
 	{
 		int error;
 		Tree t;
@@ -355,9 +300,112 @@ TEST_CASE ( "Game Basics", "Tree operators with user interface")
 			RewriteAnswer (current_location);
 			REQUIRE (current_location->message.compare (old_message) == 0);
 		}
+		DeleteTree (&t);
+	}// Aditional options
+
+	SECTION ( "Options menu" )
+	{
+		int error;
+		Tree t;
+		GenericTree (&t);
+		TreeNode* current_location;
+		current_location = t.root;
+
+		std::cout <<  "\n-------------- TEST: Rewrite + any option --------------\n\n";
+
+		error = OptionsQuestion (current_location);
+		REQUIRE (error == 0);
+
+			std::cout <<  "\n-------------- TEST: Delete --------------\n\n";
+
+		error = OptionsQuestion (current_location);
+		REQUIRE (error == -1);
+
+		std::cout <<  "\n-------------- TEST: (Voltar) --------------\n\n";
+
+		error = OptionsQuestion (current_location);
+		REQUIRE (error == -1);
+
+		current_location = t.root->right_node->right_node; // Leaf
+			
+		std::cout <<  "\n-------------- TEST: Rewrite + any option --------------\n\n";
+
+		error = OptionsAnswer (current_location);
+		REQUIRE (error == 0);
+
+		std::cout <<  "\n-------------- TEST: (Voltar) --------------\n\n";
+
+		error = OptionsQuestion (current_location);
+			REQUIRE (error == -1);
 
 		DeleteTree (&t);
-	} // Aditional options
+	} // OptionsMenu
+
+	SECTION ( "Interpreting answers" )
+	{
+		int error;
+		Tree t;
+		GenericTree (&t);
+		TreeNode* current_location;
+
+		SECTION ( "To questions" )
+		{
+			current_location = t.root;
+			error = AnswerInterpreter (&current_location, "Sim" );
+			REQUIRE (error == 0);
+			REQUIRE (current_location == t.root->right_node);
+
+			current_location = t.root;
+			error = AnswerInterpreter (&current_location, "Nao" );
+			REQUIRE (error == 0);
+			REQUIRE (current_location == t.root->left_node);
+
+
+			std::cout << "\n-------------- TEST: (Voltar) --------------\n\n";
+			current_location = t.root;
+			error = AnswerInterpreter (&current_location, "Opcoes");
+			REQUIRE (error == -1);
+			REQUIRE (current_location == t.root);
+
+			current_location = t.root;
+			error = AnswerInterpreter (&current_location, "Outra resposta" );
+			REQUIRE (error == -1);
+			REQUIRE (current_location == t.root);
+		}
+
+		SECTION ( "To guesses" )
+		{
+			std::string old_message;
+			current_location = t.root->right_node->right_node; // Leaf
+			
+			old_message = current_location->message;
+			
+
+			error = AnswerInterpreter (&current_location, "Sim");
+			REQUIRE (error == 0);
+			REQUIRE (current_location->message.compare(old_message) == 0);
+			current_location->message = old_message;
+
+			error = AnswerInterpreter (&current_location, "Nao");
+			REQUIRE (error == 0);
+			REQUIRE (current_location->message.compare (old_message) != 0);
+
+			DeleteNode (&current_location->right_node);
+			DeleteNode (&current_location->left_node);
+			current_location->message = old_message;
+
+			std::cout << "\n-------------- TEST: (Voltar) --------------\n\n";
+			error = AnswerInterpreter (&current_location, "Opcoes");
+			REQUIRE (error == -1);
+			REQUIRE (current_location == t.root->right_node->right_node); // Leaf
+
+			error = AnswerInterpreter (&current_location, "Outra resposta");
+			REQUIRE (error == -1);
+			REQUIRE (current_location->message.compare (old_message) == 0);
+		}
+
+		DeleteTree (&t);
+	} // Interpreting answers
 
 } // TEST_CASE
 

@@ -67,6 +67,10 @@ int AnswerInterpreter (TreeNode **current_location, std::string answer)
 			*current_location = (*current_location)->left_node;
 			error = (old_location == *current_location);
 		}
+		else if ( answer == "Opcoes" || answer == "opcoes" || answer == "OPCOES" )
+		{
+			error = OptionsQuestion (*current_location);
+		}
 		else 
 		{
 			std::cout << "\n **** Por favor, de uma resposta do tipo Sim ou Nao.\n\n";
@@ -81,6 +85,11 @@ int AnswerInterpreter (TreeNode **current_location, std::string answer)
 		{
 			std::cout << "\n$$$$$ Haha! Eu ganhei denovo. $$$$$\n\n";
 		} // Sim
+
+		else if ( answer == "Opcoes" || answer == "opcoes" || answer == "OPCOES" )
+		{
+			error = OptionsAnswer (*current_location);
+		}
 
 		else if ( answer == "Nao" || answer == "nao" || answer == "NAO" )
 		{
@@ -217,7 +226,7 @@ int DeleteQuestion (TreeNode* current_location)
 
 	else 
 	{
-		std:: cout << "\n Nao e permitido apagar a arvore inteira.\n";
+		std:: cout << "\n ### Nao e permitido apagar a arvore inteira.\n";
 		return -1;
 	} 
 
@@ -255,5 +264,85 @@ void RewriteAnswer (TreeNode* current_location)
 	}	// repeter
 
 } // RewriteAnswer
+
+int OptionsQuestion (TreeNode* current_location)
+{
+	int error = 0;
+	std::string answer;
+	int repeter = 1;
+
+	std::cout << "\n*******************************\n";
+	std::cout << " Deletar a pergunta: (Deletar)\n";
+	std::cout << " Modificar a pergunta: (Escrever)\n";
+	std::cout << " Retomar o jogo: (Voltar)\n";
+	std::cout << "*********************************\n\n";
+
+	std::cin >> answer;
+
+	while (repeter)
+	{
+
+		if ( answer == "Deletar" || answer == "deletar" || answer == "DELETAR" )
+		{
+			repeter = 0;
+			error = DeleteQuestion (current_location);
+		}
+
+		else if ( answer == "Escrever" || answer == "escrever" || answer == "ESCREVER" )
+		{
+			repeter = 0;
+			RewriteQuestion (current_location);
+		}
+
+		else if ( answer == "Voltar" || answer == "voltar" || answer == "VOLTAR" )
+		{
+			repeter = 0;
+			error = -1;
+		}
+
+		else	
+		{
+			std::cout << "\n **** Por favor, de uma das respostas esperadas.\n\n";
+		}
+	}	// while
+
+	return error;
+} // OptionsQuestion
+
+int OptionsAnswer (TreeNode* current_location)
+{
+	int error = 0;
+	std::string answer;
+	int repeter = 1;
+
+	std::cout << "\n*******************************\n";
+	std::cout << " Modificar a resposta: (Escrever)\n";
+	std::cout << " Retomar o jogo: (Voltar)\n";
+	std::cout << "*********************************\n\n";
+
+	std::cin >> answer;
+
+	while (repeter)
+	{
+		if ( answer == "Escrever" || answer == "escrever" || answer == "ESCREVER" )
+		{
+			repeter = 0;
+			RewriteAnswer (current_location);
+		}
+
+		else if ( answer == "Voltar" || answer == "voltar" || answer == "VOLTAR" )
+		{
+			repeter = 0;
+			error = -1;
+		}
+
+		else	
+		{
+			std::cout << "\n **** Por favor, de uma das respostas esperadas.\n\n";
+		}
+	}	// while
+
+	return error;
+}
 
 } // namespace tree

@@ -18,6 +18,10 @@ int DeleteQuestion (TreeNode* current_location);
 
 void RewriteAnswer (TreeNode* current_location);
 
+int OptionsQuestion (TreeNode* current_location);
+
+int OptionsAnswer (TreeNode* current_location);
+
 } // namespace tree
 
 #endif
