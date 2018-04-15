@@ -5,6 +5,15 @@
 
 namespace tree {
 
+/** \brief Tree builder interface
+
+		The function takes one argument returning an integer value.\n
+		It gives the user the option of loading a tree (game) using LoadTree() or creating a Default using GenericTree().
+		\param t a Tree type pointer.
+		\return The state of the operation, 0 if it was successful, -1 if the command wasn't valid and another one if it wasn't successful.
+		\sa LoadTree() GenericTree() CreateTree()
+*/
+
 int StartTree (Tree *t)
 {
 	int error = 0;
@@ -40,11 +49,23 @@ int StartTree (Tree *t)
 
 
 	else
+		std::cout << "\n **** Por favor, de uma das respostas esperadas. \n\n";
 		return -1;
 
 	return error;
 } // StartTree
 
+/** \brief Answer interpreter interface
+
+		The function takes two arguments returning an integer value.\n
+		It interpretates the user's possible answer. \n If it's a question: (Sim) go to the right node, (Nao) go to the left node, (Opcoes) open the question options menu;
+		if it's a guess: (Sim) game ends, (Nao) ask for the answer and a new question, (Opcoes) open the answer options menu.
+		\param current_location a TreeNode type pointer of pointer that indicates what node the game is processing.
+		\param answer a string that indicates the answer given by the user.
+		\return The state of the operation, 0 if it was successful, -1 if the command wasn't valid or the same tree node needs to
+		be processed again, -2 if the game ended with the user winning and another one if it wasn't successful.
+		\sa OptionsQuestion() OptionsAnswer() AddRightNode() AddLeftNode() ChangeNodeData()
+*/
 
 int AnswerInterpreter (TreeNode **current_location, std::string answer)
 {
@@ -148,6 +169,15 @@ int AnswerInterpreter (TreeNode **current_location, std::string answer)
 	return error;
 } // AnswerInterpreter
 
+/** \brief Change question interface
+
+		The function takes one argument.\n
+		It rewrites a existent question using the function ChangeNodeData().
+		\param current_location a TreeNode type pointer.
+		\return void.
+		\sa ChangeNodeData()
+*/
+
 void RewriteQuestion (TreeNode* current_location)
 {
 	int repeter = 1;
@@ -179,6 +209,16 @@ void RewriteQuestion (TreeNode* current_location)
 	}	// repeter
 
 } // RewriteQuestion
+
+/** \brief Delete question interface
+
+		The function takes one argument returning an integer value.\n
+		It rewrites a existent question in to a answer and deletes all the underlying nodes using the function DeleteSubtree().
+		\param current_location a TreeNode type pointer.
+		\return The state of the operation, 0 if it was successful, -1 if the operation isn't allowed and 
+		the node needs to be processed again ,and another one if it wasn't successful.
+		\sa ChangeNodeData() DeleteSubtree()
+*/
 
 int DeleteQuestion (TreeNode* current_location)
 {
@@ -230,6 +270,15 @@ int DeleteQuestion (TreeNode* current_location)
 	return error;
 } // DeleteQuestion
 
+/** \brief Rewrite answer interface
+
+		The function takes one argument.\n
+		It rewrites a existent guess using the function ChangeNodeData().
+		\param current_location a TreeNode type pointer.
+		\return void.
+		\sa ChangeNodeData() DeleteSubtree()
+*/
+
 void RewriteAnswer (TreeNode* current_location)
 {
 	int repeter = 1;
@@ -260,6 +309,15 @@ void RewriteAnswer (TreeNode* current_location)
 	}	// repeter
 
 } // RewriteAnswer
+
+/** \brief Question options menu
+
+		The function takes one argument returning an integer value.\n
+		It gives the user the possibility to delete or rewrite the question ,or to simply resume the game.
+		\param current_location a TreeNode type pointer.
+		\return The state of the operation, 0 if it was successful, -1 if the node needs to be processed again (resume) and another one if it wasn't successful.
+		\sa DeleteQuestion() RewriteQuestion()
+*/
 
 int OptionsQuestion (TreeNode* current_location)
 {
@@ -305,6 +363,15 @@ int OptionsQuestion (TreeNode* current_location)
 	return error;
 } // OptionsQuestion
 
+/** \brief Answer options menu
+
+		The function takes one argument returning an integer value.\n
+		It gives the user the possibility to rewrite the guess or to simply resume the game.
+		\param current_location a TreeNode type pointer.
+		\return The state of the operation, 0 if it was successful, -1 if the node needs to be processed again (resume) and another one if it wasn't successful.
+		\sa RewriteAnswer()
+*/
+
 int OptionsAnswer (TreeNode* current_location)
 {
 	int error = 0;
@@ -340,6 +407,15 @@ int OptionsAnswer (TreeNode* current_location)
 
 	return error;
 } // OptionsAnswer
+
+/** \brief Saving interface
+
+		The function takes one argument returning an integer value.\n
+		It gives the user the possibility to save the used and possibly modified tree (game) in a text file using the function SaveTree().
+		\param t a Tree type pointer.
+		\return The state of the operation, 0 if it was successful and another one if it wasn't.
+		\sa SaveTree()
+*/
 
 int SavingInterface (Tree* t)
 {

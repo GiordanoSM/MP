@@ -3,7 +3,18 @@
 #include <stdlib.h>
 #include <iostream>
 
+/**
+		\brief Basic binary tree operations
+*/
+
 namespace tree {
+
+/** \brief Tree root allocator
+		
+		The function takes one argument returning an integer value.
+		\param t a Tree type pointer.
+		\return The state of the operation, 0 if it was successful, 1 if it wasn't. 
+*/
 
 int CreateTree (Tree* t) 
 {
@@ -16,6 +27,13 @@ int CreateTree (Tree* t)
 	else 
 		return 1;
 } // CreateTree
+
+/** \brief TreeNode right son allocator
+
+		The function takes one argument returning an integer value.
+		\param n a TreeNode type pointer.
+		\return The state of the operation, 0 if it was successful, 1 if it wasn't.
+*/
 
 int AddRightNode (TreeNode* n)
 {
@@ -34,6 +52,13 @@ int AddRightNode (TreeNode* n)
 		return 1;
 } // AddRightNode
 
+/** \brief TreeNode left son allocator
+
+		The function takes one argument returning an integer value.
+		\param n a TreeNode type pointer.
+		\return The state of the operation, 0 if it was successful, 1 if it wasn't.
+*/
+
 int AddLeftNode (TreeNode* n)
 {
 	int leaf = 1;
@@ -50,6 +75,13 @@ int AddLeftNode (TreeNode* n)
 	else 
 		return 1;
 } // AddLeftNode
+
+/** \brief TreeNode deallocator
+
+		The function takes one argument returning an integer value.
+		\param n a TreeNode type pointer of pointer.
+		\return The state of the operation, 0 if it was successful, 1 if it wasn't.
+*/
 
 int DeleteNode (TreeNode** n)
 {
@@ -71,6 +103,15 @@ int DeleteNode (TreeNode** n)
 		return 1;
 	}
 } // DeleteNode
+
+/** \brief TreeNode subtree desalocator
+
+		The function takes one argument returning an integer value. \n
+		It makes successive calls of function DeleteNode().
+		\param n a TreeNode type pointer of pointer.
+		\return The state of the operation, 0 if it was successful, another value if it wasn't.
+		\sa DeleteNode()
+*/
 
 int DeleteSubtree (TreeNode** n)
 {
@@ -97,6 +138,15 @@ int DeleteSubtree (TreeNode** n)
 	return error;
 } // DeleteSubtree
 
+/** \brief Tree desalocator
+
+		The function takes one argument returning an integer value. \n
+		It makes successive calls of function DeleteNode() and DeleteSubtree().
+		\param t a Tree type pointer.
+		\return The state of the operation, 0 if it was successful, another value if it wasn't.
+		\sa DeleteNode() DeleteSubtree()
+*/
+
 int DeleteTree (Tree* t)
 {
 	int error = 0;
@@ -112,10 +162,28 @@ int DeleteTree (Tree* t)
 	return error;
 } // DeleteTree
 
+/** \brief TreeNode data changer
+
+		The function takes two arguments returning void.
+		It changes the message contained in the node.
+		\param n a TreeNode type pointer.
+		\param s a string containing the new message.
+*/
+
 void ChangeNodeData (TreeNode* n, std::string s)
 {
 	n->message = s;
 } // Change Data
+
+/** \brief Tree saver
+
+		The function takes two arguments. \n
+		It saves the questions and answers contained in the tree in a text file calling the function WriteTree to transform the data of the tree in to a string.
+		\param t a Tree type pointer.
+		\param file_name a string containing the name of the text file. 
+		\return The state of the operation, 0 if it was successful, another value if it wasn't.
+		\sa WriteTree()
+*/
 
 int SaveTree (Tree* t, std::string file_name)
 {
@@ -135,6 +203,15 @@ int SaveTree (Tree* t, std::string file_name)
 	return error;
 } // ChangeNodeData
 
+/** \brief Tree writer
+
+		The function takes two arguments returning an integer value. \n
+		It converts the questions and answers contained in the tree in a string using dividers and leaf indicators. 
+		\param n a TreeNode type pointer.
+		\param my_tree a string pointer for the string that will contain the transformed tree. 
+		\return The state of the operation, 0 if it was successful, another value if it wasn't.
+*/
+
 int WriteTree (TreeNode* n, std::string* my_tree)
 {
 	int leaf = 1;
@@ -145,7 +222,7 @@ int WriteTree (TreeNode* n, std::string* my_tree)
 
 	(*my_tree) += n->message + divider;
 
-	if (my_tree->compare (old_my_tree) == 0)
+	if ((*my_tree)->compare (old_my_tree) == 0)
 		error += 1;
 
 	if (n->defining_element == leaf)
@@ -167,6 +244,16 @@ int WriteTree (TreeNode* n, std::string* my_tree)
 
 	return error;
 } // WriteTree
+
+/** \brief Tree loader
+
+		The function takes two arguments returning an integer value. \n
+		It loads the questions and answers contained in a text file calling the function ReadTree to transform the data of file in to a tree.
+		\param t a Tree type pointer.
+		\param file_name a string containing the name of the text file. 
+		\return The state of the operation, 0 if it was successful, another value if it wasn't.
+		\sa ReadTree()
+*/
 
 int LoadTree (Tree* t, std::string file_name)
 {
@@ -190,6 +277,18 @@ int LoadTree (Tree* t, std::string file_name)
 	my_file.close();
 	return error;
 } // LoadTree
+
+/** \brief Tree reader
+
+		The function takes three arguments returning an integer value. \n
+		It reads the questions and answers contained in a text file and transforms them in to a tree.\n
+		This function only works for trees that the father node always have two sons.
+		\param n a TreeNode type pointer.
+		\param my_tree a string pointer for a string containing the data of the text file. 
+		\param counter a integer pointer that indicates what character of the string the function is processing.
+		\return The state of the operation, 0 if it was successful, another value if it wasn't.
+		\sa AddLeftNode() AddRightNode()
+*/
 
 int ReadTree (TreeNode* n, std::string* my_tree, int* counter)
 {
@@ -237,6 +336,15 @@ int ReadTree (TreeNode* n, std::string* my_tree, int* counter)
 
 
 } // ReadTree
+
+/** \brief Generic tree builder
+
+		The function takes one argument returning an integer value. \n
+		It builds a binary tree containing seven nodes with predefined messages.
+		\param t a Tree type pointer. 
+		\return The state of the operation, 0 if it was successful, another value if it wasn't.
+		\sa ChangeNodeData() AddLeftNode() AddRightNode ()
+*/
 
 int GenericTree (Tree* t)
 {

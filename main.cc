@@ -5,8 +5,29 @@
 #include "../include/jogo_interface.h"
 #include "../include/arvore.h"
 
+/*! \mainpage MP Project Documentation
+	
+	\author Giordano Suffert Monteiro
+	\version 1.0
+	\date 04/2018
+  
+  \section intro_sec Introduction
+  
+  This project is focused in developing the game of questions required using a binary tree focusing in a development test oriented. \n
+  To use the program it's necessary the executable file of the game.
+ 
+  \section make_sec Executing makefile
+ 
+  The makefile related to this program can be use with the comand: \n\n
+
+  make test  (Will create the executable test file related to the development of the program) \n
+  make maingame (Will create the game executable)
+
+*/
+
 int main ()
 {	
+	int error = 1;
 	int jogar_novamente = 1;
 	int leaf = 1;
 	int not_leaf = 0;
@@ -23,7 +44,11 @@ int main ()
 		std::cout << ">>>>>> Pronto? Agora tentarei adivinhar com base nas suas respostas ao que perguntarei sobre o que voce pensou\n\n";
 		std::cout << "########## Mas primeiro voce deve escolher meu banco de dados!\n\n";
 
-		tree::StartTree(&t);
+		while (error != 0)
+		{
+			error = tree::StartTree(&t);
+		}
+		
 		current_location = t.root;
 
 		std::cout << ">>>>>> Agora que estamos ambos prontos, vamos as perguntas!!!\n\n";
