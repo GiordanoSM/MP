@@ -76,7 +76,7 @@ int DeleteSubtree (TreeNode** n)
 {
 	int error = 0;
 
-	if ((*n)->father_node != NULL) // Caso n for a raiz da árvore
+	if ((*n)->father_node != NULL) // Caso não for a raiz da árvore
 	{
 		if ((*n)->left_node != NULL)
 		{
@@ -89,7 +89,7 @@ int DeleteSubtree (TreeNode** n)
 		}
 
 		error += DeleteNode (n);
-	} // father_node
+	}
 
 	else 
 		error = -1;

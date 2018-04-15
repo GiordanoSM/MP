@@ -387,7 +387,7 @@ TEST_CASE ( "Game Basics", "Tree operators with user interface")
 			current_location->message = old_message;
 
 			error = AnswerInterpreter (&current_location, "Nao");
-			REQUIRE (error == 0);
+			REQUIRE (error == -2);
 			REQUIRE (current_location->message.compare (old_message) != 0);
 
 			DeleteNode (&current_location->right_node);
@@ -399,7 +399,7 @@ TEST_CASE ( "Game Basics", "Tree operators with user interface")
 			REQUIRE (error == -1);
 			REQUIRE (current_location == t.root->right_node->right_node); // Leaf
 
-			error = AnswerInterpreter (&current_location, "Outra resposta");
+			error = AnswerInterpreter (&current_location, "Outra resposta ");
 			REQUIRE (error == -1);
 			REQUIRE (current_location->message.compare (old_message) == 0);
 		}
@@ -407,6 +407,22 @@ TEST_CASE ( "Game Basics", "Tree operators with user interface")
 		DeleteTree (&t);
 	} // Interpreting answers
 
+	SECTION ("Saving interface")
+	{
+		int error;
+		Tree t;
+		GenericTree (&t);
+
+		std::cout << "\n-------------- TEST: Save --------------\n\n";
+		error = SavingInterface (&t);
+		REQUIRE (error == 0);
+
+		std::cout << "\n-------------- TEST: Don't save --------------\n\n";
+		error = SavingInterface (&t);
+		REQUIRE (error == 0);
+
+		DeleteTree (&t);
+	}
 } // TEST_CASE
 
 } // namespace tree

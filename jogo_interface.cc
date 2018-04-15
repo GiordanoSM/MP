@@ -94,12 +94,10 @@ int AnswerInterpreter (TreeNode **current_location, std::string answer)
 		else if ( answer == "Nao" || answer == "nao" || answer == "NAO" )
 		{
 			std::cout << "\n$$$$$ Ah... Que pena. Qual era a resposta correta? $$$$$\n\n";
-			std::cin >> new_element;
-			getchar();
+			std::getline (std::cin, new_element);
 
 			std::cout << "\n$$$$$ Digite a pergunta que voce a faria para diferenciar minha resposta da sua. $$$$$\n\n";
-			std::cin >> new_question;
-			getchar();
+			std::getline (std::cin, new_question);
 
 			while ((*current_location)->defining_element == leaf)
 			{
@@ -136,6 +134,7 @@ int AnswerInterpreter (TreeNode **current_location, std::string answer)
 
 			} // while
 
+			return -2;
 		} // Nao
 
 		else 
@@ -163,8 +162,7 @@ void RewriteQuestion (TreeNode* current_location)
 		if ( answer == "Sim" || answer == "sim" || answer == "SIM" )
 		{
 			std::cout << "\n *** Nova pergunta: ";
-			std::cin >> answer;
-			getchar();
+			std::getline(std::cin, answer);
 
 			ChangeNodeData (current_location, answer);
 
@@ -206,8 +204,7 @@ int DeleteQuestion (TreeNode* current_location)
 				current_location->defining_element = leaf;
 
 				std::cout << "\n **** Escreva uma possivel nova resposta para ficar no lugar da antiga pergunta **** \n\n";
-				std::cin >> answer;
-				getchar();
+				std::getline(std::cin, answer);
 
 				ChangeNodeData (current_location, answer);
 
@@ -246,8 +243,7 @@ void RewriteAnswer (TreeNode* current_location)
 		if ( answer == "Sim" || answer == "sim" || answer == "SIM" )
 		{
 			std::cout << "\n *** Nova resposta: ";
-			std::cin >> answer;
-			getchar();
+			std::getline(std::cin, answer);
 
 			ChangeNodeData (current_location, answer);
 
@@ -338,11 +334,74 @@ int OptionsAnswer (TreeNode* current_location)
 
 		else	
 		{
-			std::cout << "\n **** Por favor, de uma das respostas esperadas.\n\n";
+			std::cout << "\n **** Por favor, de uma das respostas esperadas. \n\n";
 		}
 	}	// while
 
 	return error;
-}
+} // OptionsAnswer
+
+int SavingInterface (Tree* t)
+{
+	int repeter = 1;
+	int error = 0;
+	std::string file_name, answer;
+	while (repeter)
+	{
+		std::cout << "\n>>>>>> Deseja salvar o jogo atual para usa-lo no futuro? (Sim/Nao)\n\n";
+		std::cin >> answer;
+		getchar();
+
+		if ( answer == "Sim" || answer == "sim" || answer == "SIM" )
+		{
+			std::cout << "\n*******# Informe o nome e extensao do arquivo em que o jogo sera salvo. (.txt) #*******\n";
+			std::cout << "## Obs: Caso ele nao esteja no mesmo diretorio que esse jogo, informe seu caminho.\n\n";
+			std::cin >> file_name;
+			getchar();
+
+			error = SaveTree (t, file_name);
+
+			repeter = 0;
+		}
+
+		else if ( answer == "Nao" || answer == "nao" || answer == "NAO" )
+		{
+			int repeter_2 = 1;
+
+			std::cout << "\n **** Voce tem certeza que nao quer salvar o jogo? (Sim/Nao) \n"; 
+			std::cout << "### Lembre-se que todas as perguntas e adivinhacoes serao perdidas.\n\n";		
+			std::cin >> answer;
+			getchar();
+
+			while (repeter_2)
+			{
+				if ( answer == "Sim" || answer == "sim" || answer == "SIM" )
+				{
+					repeter_2 = 0;
+					repeter = 0;
+				}
+
+				else if ( answer == "Nao" || answer == "nao" || answer == "NAO" )
+				{
+					repeter_2 = 0;
+					repeter = 1;
+				}
+
+				else
+				{
+					std::cout << "\n **** Por favor, de uma resposta do tipo Sim ou Nao.\n\n";
+				}
+			} // repeter_2
+			
+		}
+
+		else 
+		{
+			std::cout << "\n **** Por favor, de uma resposta do tipo Sim ou Nao.\n\n";
+		}
+	}	// repeter
+
+	return error;
+} // SavingInterface
 
 } // namespace tree

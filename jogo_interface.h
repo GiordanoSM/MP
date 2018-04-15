@@ -2,7 +2,6 @@
 #define MP_SRC_JOGO_INTERFACE_H_
 
 #include <string>
-#include <fstream>
 
 #include "../include/arvore.h"
 
@@ -21,6 +20,8 @@ void RewriteAnswer (TreeNode* current_location);
 int OptionsQuestion (TreeNode* current_location);
 
 int OptionsAnswer (TreeNode* current_location);
+
+int SavingInterface (Tree* t);
 
 } // namespace tree
 
