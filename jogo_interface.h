@@ -12,6 +12,12 @@ int StartTree (Tree *t);
 
 int AnswerInterpreter (TreeNode **current_location, std::string answer);
 
+void RewriteQuestion (TreeNode* current_location);
+
+int DeleteQuestion (TreeNode* current_location);
+
+void RewriteAnswer (TreeNode* current_location);
+
 } // namespace tree
 
 #endif

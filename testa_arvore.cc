@@ -282,7 +282,7 @@ TEST_CASE ( "Game Basics", "Tree operators with user interface")
 		SECTION ( "To guesses" )
 		{
 			std::string old_message;
-			current_location = t.root->right_node->right_node;
+			current_location = t.root->right_node->right_node; // Leaf
 			
 			old_message = current_location->message;
 			
@@ -307,6 +307,57 @@ TEST_CASE ( "Game Basics", "Tree operators with user interface")
 
 		DeleteTree (&t);
 	} // Interpreting answers
+
+
+	SECTION ( "Aditional options" )
+	{
+		int error;
+		Tree t;
+		GenericTree (&t);
+		TreeNode* current_location;
+
+		SECTION ( "Node with question" )
+		{
+			current_location = t.root;
+			std::string old_message = current_location->message;
+
+			std::cout <<  "\n-------------- TEST: Write diferent question (Sim)--------------\n\n";
+			RewriteQuestion (current_location);
+			REQUIRE (current_location->message.compare (old_message) != 0);
+
+			old_message = current_location->message;
+
+			std::cout <<  "\n-------------- TEST: Dont change question (Nao)--------------\n\n";
+			RewriteQuestion (current_location);
+			REQUIRE (current_location->message.compare (old_message) == 0);
+
+			error = DeleteQuestion (current_location);
+			REQUIRE (error == -1);
+
+			current_location = t.root->right_node;
+
+			error = DeleteQuestion (current_location);
+			REQUIRE (error == 0);
+		}
+
+		SECTION ( "Node with answers" )
+		{
+			current_location = t.root->right_node->right_node; // Leaf
+			std::string old_message = current_location->message;
+			
+			std::cout <<  "\n-------------- TEST: Write diferent answer (Sim)--------------\n\n";
+			RewriteAnswer (current_location);
+			REQUIRE (current_location->message.compare (old_message) != 0);
+
+			old_message = current_location->message;
+
+			std::cout <<  "\n-------------- TEST: Dont change answer (Nao)--------------\n\n";
+			RewriteAnswer (current_location);
+			REQUIRE (current_location->message.compare (old_message) == 0);
+		}
+
+		DeleteTree (&t);
+	} // Aditional options
 
 } // TEST_CASE
 

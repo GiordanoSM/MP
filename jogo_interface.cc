@@ -140,5 +140,120 @@ int AnswerInterpreter (TreeNode **current_location, std::string answer)
 	return error;
 } // AnswerInterpreter
 
+void RewriteQuestion (TreeNode* current_location)
+{
+	int repeter = 1;
+	std::string answer;
+	while (repeter)
+	{
+		std::cout << "\n **** Voce tem certeza que quer reescrever a pergunta? (Sim/Nao) \n"; 
+		std::cout << "### Lembre-se que as proximas perguntas e adivinhacoes podem nao ser compativeis.\n\n";
+		std::cin >> answer;
+		getchar();
+	
+		if ( answer == "Sim" || answer == "sim" || answer == "SIM" )
+		{
+			std::cout << "\n *** Nova pergunta: ";
+			std::cin >> answer;
+			getchar();
+
+			ChangeNodeData (current_location, answer);
+
+			repeter = 0;
+		}
+		else if ( answer == "Nao" || answer == "nao" || answer == "NAO" )
+		{
+			repeter = 0;
+		}
+		else 
+		{
+			std::cout << "\n **** Por favor, de uma resposta do tipo Sim ou Nao.\n\n";
+		}
+	}	// repeter
+
+} // RewriteQuestion
+
+int DeleteQuestion (TreeNode* current_location)
+{
+	int error = 0;
+	int leaf = 1;
+	int repeter = 1;
+
+	std::string answer;
+
+	if (current_location->father_node != NULL) // Se não for a raiz
+	{
+		while (repeter)
+		{
+			std::cout << "\n **** Voce tem certeza que quer apagar a pergunta? (Sim/Nao) \n"; 
+			std::cout << "### Lembre-se que as proximas perguntas e adivinhacoes serao perdidas.\n\n";
+			std::cin >> answer;
+			getchar();
+		
+			if ( answer == "Sim" || answer == "sim" || answer == "SIM" )
+			{
+				error += DeleteSubtree (&current_location->right_node);
+				error += DeleteSubtree (&current_location->left_node);
+				current_location->defining_element = leaf;
+
+				std::cout << "\n **** Escreva uma possivel nova resposta para ficar no lugar da antiga pergunta **** \n\n";
+				std::cin >> answer;
+				getchar();
+
+				ChangeNodeData (current_location, answer);
+
+				repeter = 0;
+			}
+			else if ( answer == "Nao" || answer == "nao" || answer == "NAO" )
+			{
+				repeter = 0;
+			}
+			else 
+			{
+				std::cout << "\n **** Por favor, de uma resposta do tipo Sim ou Nao.\n\n";
+			}
+		}	// repeter
+	} // if
+
+	else 
+	{
+		std:: cout << "\n Nao e permitido apagar a arvore inteira.\n";
+		return -1;
+	} 
+
+	return error;
+} // DeleteQuestion
+
+void RewriteAnswer (TreeNode* current_location)
+{
+	int repeter = 1;
+	std::string answer;
+	while (repeter)
+	{
+		std::cout << "\n **** Voce tem certeza que quer reescrever a resposta? (Sim/Nao) \n\n"; 
+		std::cin >> answer;
+		getchar();
+	
+		if ( answer == "Sim" || answer == "sim" || answer == "SIM" )
+		{
+			std::cout << "\n *** Nova resposta: ";
+			std::cin >> answer;
+			getchar();
+
+			ChangeNodeData (current_location, answer);
+
+			repeter = 0;
+		}
+		else if ( answer == "Nao" || answer == "nao" || answer == "NAO" )
+		{
+			repeter = 0;
+		}
+		else 
+		{
+			std::cout << "\n **** Por favor, de uma resposta do tipo Sim ou Nao.\n\n";
+		}
+	}	// repeter
+
+} // RewriteAnswer
 
 } // namespace tree
