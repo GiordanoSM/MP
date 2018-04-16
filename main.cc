@@ -23,6 +23,10 @@
   make test  (Will create the executable test file related to the development of the program) \n
   make maingame (Will create the game executable)
 
+  \section doxy_sec Executing doxygen again
+
+  If you want to generate another documentation of these files, please change the file's directories in the doxygen configuration file "configDoxy" (INPUT) to the current ones.
+
 */
 
 int main ()
