@@ -254,7 +254,7 @@ TEST_CASE ( "Game Basics", "Tree operators with user interface")
 		}
 	} // Starting tree
 
-		SECTION ( "Aditional options" )
+	SECTION ( "Aditional options" )
 	{
 		int error;
 		Tree t;
@@ -285,7 +285,7 @@ TEST_CASE ( "Game Basics", "Tree operators with user interface")
 			REQUIRE (error == 0);
 		}
 
-		SECTION ( "Node with answers" )
+		SECTION ( "Node with answer" )
 		{
 			current_location = t.root->right_node->right_node; // Leaf
 			std::string old_message = current_location->message;

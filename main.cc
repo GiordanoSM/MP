@@ -18,7 +18,7 @@
  
   \section make_sec Executing makefile
  
-  The makefile related to this program can be use with the comand: \n\n
+  The makefile related to this program must be executed in src directory and can be use with the comand: \n\n
 
   make test  (Will create the executable test file related to the development of the program) \n
   make maingame (Will create the game executable)

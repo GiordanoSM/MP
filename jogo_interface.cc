@@ -49,8 +49,10 @@ int StartTree (Tree *t)
 
 
 	else
+	{
 		std::cout << "\n **** Por favor, de uma das respostas esperadas. \n\n";
 		return -1;
+	}
 
 	return error;
 } // StartTree

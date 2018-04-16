@@ -104,7 +104,7 @@ int DeleteNode (TreeNode** n)
 	}
 } // DeleteNode
 
-/** \brief TreeNode subtree desalocator
+/** \brief TreeNode subtree deallocator
 
 		The function takes one argument returning an integer value. \n
 		It makes successive calls of function DeleteNode().
@@ -138,7 +138,7 @@ int DeleteSubtree (TreeNode** n)
 	return error;
 } // DeleteSubtree
 
-/** \brief Tree desalocator
+/** \brief Tree deallocator
 
 		The function takes one argument returning an integer value. \n
 		It makes successive calls of function DeleteNode() and DeleteSubtree().
@@ -222,7 +222,7 @@ int WriteTree (TreeNode* n, std::string* my_tree)
 
 	(*my_tree) += n->message + divider;
 
-	if ((*my_tree)->compare (old_my_tree) == 0)
+	if (my_tree->compare (old_my_tree) == 0)
 		error += 1;
 
 	if (n->defining_element == leaf)
