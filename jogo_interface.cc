@@ -24,7 +24,7 @@ int StartTree (Tree *t)
 		assert( t != NULL ) ; // retirado se ASSERT_DEBUG não definido
 	#endif
 
-	int error = 0;
+	unsigned int error = 0;
 	std::string option;
 	std::string file_name;
 
@@ -80,8 +80,8 @@ int StartTree (Tree *t)
 
 int AnswerInterpreter (TreeNode **current_location, std::string answer)
 {
-	int leaf = 1;
-	int not_leaf = 0;
+	const unsigned int leaf = 1;
+	const unsigned int not_leaf = 0;
 	//Assertiva de entrada
 	#ifdef ASSERT_DEBUG
 		assert( current_location != NULL ) ;
@@ -206,7 +206,7 @@ int AnswerInterpreter (TreeNode **current_location, std::string answer)
 		It rewrites a existent question using the function ChangeNodeData().
 		\param current_location a TreeNode type pointer.
 		\return void.
-		\pre "current_location" must have been previously alocated.
+		\pre "current_location" must have been previously alocated and must be a "question".
 		\sa ChangeNodeData()
 */
 
@@ -217,7 +217,7 @@ void RewriteQuestion (TreeNode* current_location)
 		assert( current_location != NULL ) ; // retirado se ASSERT_DEBUG não definido
 	#endif
 
-	int repeter = 1;
+	unsigned int repeter = 1;
 	std::string answer;
 	while (repeter)
 	{
@@ -254,7 +254,7 @@ void RewriteQuestion (TreeNode* current_location)
 		\param current_location a TreeNode type pointer.
 		\return The state of the operation, 0 if it was successful, -1 if the operation isn't allowed and 
 		the node needs to be processed again ,and another one if it wasn't successful.
-		\pre "current_location" must have been previously alocated.
+		\pre "current_location" must have been previously alocated and must be a "question".
 		\sa ChangeNodeData() DeleteSubtree()
 */
 
@@ -266,8 +266,8 @@ int DeleteQuestion (TreeNode* current_location)
 	#endif
 
 	int error = 0;
-	int leaf = 1;
-	int repeter = 1;
+	const unsigned int leaf = 1;
+	unsigned int repeter = 1;
 
 	std::string answer;
 
@@ -319,7 +319,7 @@ int DeleteQuestion (TreeNode* current_location)
 		It rewrites a existent guess using the function ChangeNodeData().
 		\param current_location a TreeNode type pointer.
 		\return void.
-		\pre "current_location" must have been previously alocated.
+		\pre "current_location" must have been previously alocated and must be a "answer".
 		\sa ChangeNodeData() DeleteSubtree()
 */
 
@@ -330,7 +330,7 @@ void RewriteAnswer (TreeNode* current_location)
 		assert( current_location != NULL ) ; // retirado se ASSERT_DEBUG não definido
 	#endif
 
-	int repeter = 1;
+	unsigned int repeter = 1;
 	std::string answer;
 	while (repeter)
 	{
@@ -365,7 +365,7 @@ void RewriteAnswer (TreeNode* current_location)
 		It gives the user the possibility to delete or rewrite the question ,or to simply resume the game.
 		\param current_location a TreeNode type pointer.
 		\return The state of the operation, 0 if it was successful, -1 if the node needs to be processed again (resume) and another one if it wasn't successful.
-		\pre "current_location" must have been previously alocated.
+		\pre "current_location" must have been previously alocated and must be a "question".
 		\sa DeleteQuestion() RewriteQuestion()
 */
 
@@ -378,7 +378,7 @@ int OptionsQuestion (TreeNode* current_location)
 
 	int error = 0;
 	std::string answer;
-	int repeter = 1;
+	unsigned int repeter = 1;
 
 	while (repeter)
 	{
@@ -424,7 +424,7 @@ int OptionsQuestion (TreeNode* current_location)
 		It gives the user the possibility to rewrite the guess or to simply resume the game.
 		\param current_location a TreeNode type pointer.
 		\return The state of the operation, 0 if it was successful, -1 if the node needs to be processed again (resume) and another one if it wasn't successful.
-		\pre "current_location" must have been previously alocated.
+		\pre "current_location" must have been previously alocated and must be a "answer".
 		\sa RewriteAnswer()
 */
 
@@ -437,7 +437,7 @@ int OptionsAnswer (TreeNode* current_location)
 
 	int error = 0;
 	std::string answer;
-	int repeter = 1;
+	unsigned int repeter = 1;
 
 	while (repeter)
 	{
@@ -487,7 +487,7 @@ int SavingInterface (Tree* t)
 		assert( t != NULL ) ; // retirado se ASSERT_DEBUG não definido
 	#endif
 
-	int repeter = 1;
+	unsigned int repeter = 1;
 	int error = 0;
 	std::string file_name, answer;
 	while (repeter)
@@ -510,7 +510,7 @@ int SavingInterface (Tree* t)
 
 		else if ( answer == "Nao" || answer == "nao" || answer == "NAO" )
 		{
-			int repeter_2 = 1;
+			unsigned int repeter_2 = 1;
 
 			while (repeter_2)
 			{

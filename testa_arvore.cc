@@ -10,8 +10,8 @@ namespace tree {
 
 TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 {
-	int leaf = 1;
-	int not_leaf = 0;
+	const unsigned int leaf = 1;
+	const unsigned int not_leaf = 0;
 	TreeNode* n = new (std::nothrow) TreeNode();
 
 
@@ -29,7 +29,7 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 
 		SECTION ( "Tree already exists or Tree variable was not alocated" )
 		{
-			int error;
+			unsigned int error;
 			CreateTree(t);
 			error = CreateTree(t);
 			REQUIRE (error == 1);
@@ -40,7 +40,7 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 	{
 		SECTION ( "Right node" )
 		{
-			int error;
+			unsigned int error;
 
 			SECTION ( "New node" )
 			{
@@ -62,7 +62,7 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 
 		SECTION ( "Left node" )
 		{	
-			int error;
+			unsigned int error;
 
 			SECTION ( "New node" )
 			{
@@ -85,7 +85,7 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 
 	SECTION ( "Deleting a node" )
 	{
-		int error;
+		unsigned int error;
 		TreeNode* parent = new (std::nothrow) TreeNode();
 
 		SECTION ( "Without sons" )
@@ -115,7 +115,7 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 
 	SECTION ( "Deleting a subtree" )
 	{
-		int error;
+		unsigned int error;
 		TreeNode* parent = new (std::nothrow) TreeNode();
 		AddLeftNode (parent);
 		AddRightNode (parent->left_node);
@@ -139,7 +139,7 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 
 	SECTION ( "Deleting the tree" )
 	{
-		int error;
+		unsigned int error;
 		Tree t;
 		CreateTree (&t);
 		AddLeftNode (t.root);
@@ -153,7 +153,7 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 
 	SECTION ( "Changing the node's data" )
 	{
-		int error;
+		unsigned int error;
 		std::string s = "The color of the object is blue?";
 		ChangeNodeData (n, s);
 
@@ -170,7 +170,7 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 
 		SECTION ( "Saving the tree" )
 		{
-			int error;
+			unsigned int error;
 
 			SECTION ( "Writing the tree" )
 			{
@@ -186,13 +186,13 @@ TEST_CASE ( "Tree Basics", "Tree operators and the tree are working right")
 
 		SECTION ( "Loading the tree" )
 		{
-			int error;
+			unsigned int error;
 			Tree t2;
 			CreateTree (&t2);
 
 			SECTION ( "Reading the tree" )
 			{
-				int counter = 0;
+				unsigned int counter = 0;
 				std::string my_tree;
 				std::string my_tree_2;
 
@@ -233,6 +233,7 @@ TEST_CASE ( "Game Basics", "Tree operators with user interface")
 			{
 			std::cout << "\n-------------- TEST: Write wrong file name (Arquivo)--------------\n\n";
 			error = StartTree (&t);
+			REQUIRE (error > 0);
 			REQUIRE (error == 1);
 			DeleteTree (&t);
 			}
@@ -250,6 +251,7 @@ TEST_CASE ( "Game Basics", "Tree operators with user interface")
 		{
 			std::cout <<  "\n-------------- TEST: Write wrong command --------------\n\n";
 			error = StartTree (&t);
+			REQUIRE (error < 0);
 			REQUIRE (error == -1);
 		}
 	} // Starting tree
@@ -277,6 +279,7 @@ TEST_CASE ( "Game Basics", "Tree operators with user interface")
 			REQUIRE (current_location->message.compare (old_message) == 0);
 
 			error = DeleteQuestion (current_location);
+			REQUIRE (error < 0);
 			REQUIRE (error == -1);
 
 			current_location = t.root->right_node;
@@ -319,11 +322,13 @@ TEST_CASE ( "Game Basics", "Tree operators with user interface")
 			std::cout <<  "\n-------------- TEST: Delete --------------\n\n";
 
 		error = OptionsQuestion (current_location);
+		REQUIRE (error < 0);
 		REQUIRE (error == -1);
 
 		std::cout <<  "\n-------------- TEST: (Voltar) --------------\n\n";
 
 		error = OptionsQuestion (current_location);
+		REQUIRE (error < 0);
 		REQUIRE (error == -1);
 
 		current_location = t.root->right_node->right_node; // Leaf
@@ -336,7 +341,8 @@ TEST_CASE ( "Game Basics", "Tree operators with user interface")
 		std::cout <<  "\n-------------- TEST: (Voltar) --------------\n\n";
 
 		error = OptionsQuestion (current_location);
-			REQUIRE (error == -1);
+		REQUIRE (error < 0);
+		REQUIRE (error == -1);
 
 		DeleteTree (&t);
 	} // OptionsMenu
@@ -364,11 +370,13 @@ TEST_CASE ( "Game Basics", "Tree operators with user interface")
 			std::cout << "\n-------------- TEST: (Voltar) --------------\n\n";
 			current_location = t.root;
 			error = AnswerInterpreter (&current_location, "Opcoes");
+			REQUIRE (error < 0);
 			REQUIRE (error == -1);
 			REQUIRE (current_location == t.root);
 
 			current_location = t.root;
 			error = AnswerInterpreter (&current_location, "Outra resposta" );
+			REQUIRE (error < 0);
 			REQUIRE (error == -1);
 			REQUIRE (current_location == t.root);
 		}
@@ -387,6 +395,7 @@ TEST_CASE ( "Game Basics", "Tree operators with user interface")
 			current_location->message = old_message;
 
 			error = AnswerInterpreter (&current_location, "Nao");
+			REQUIRE (error < 0);
 			REQUIRE (error == -2);
 			REQUIRE (current_location->message.compare (old_message) != 0);
 
@@ -396,10 +405,12 @@ TEST_CASE ( "Game Basics", "Tree operators with user interface")
 
 			std::cout << "\n-------------- TEST: (Voltar) --------------\n\n";
 			error = AnswerInterpreter (&current_location, "Opcoes");
+			REQUIRE (error < 0);
 			REQUIRE (error == -1);
 			REQUIRE (current_location == t.root->right_node->right_node); // Leaf
 
 			error = AnswerInterpreter (&current_location, "Outra resposta ");
+			REQUIRE (error < 0);
 			REQUIRE (error == -1);
 			REQUIRE (current_location->message.compare (old_message) == 0);
 		}
@@ -409,7 +420,7 @@ TEST_CASE ( "Game Basics", "Tree operators with user interface")
 
 	SECTION ("Saving interface")
 	{
-		int error;
+		unsigned int error;
 		Tree t;
 		GenericTree (&t);
 

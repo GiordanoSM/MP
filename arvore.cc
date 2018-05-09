@@ -51,8 +51,8 @@ int AddRightNode (TreeNode* n)
 		assert( n != NULL ) ; // retirado se ASSERT_DEBUG não definido
 	#endif
 
-	int leaf = 1;
-	int not_leaf = 0;
+	const unsigned int leaf = 1;
+	const unsigned int not_leaf = 0;
 	if(n->right_node == NULL)
 	{
 		n->right_node = new (std::nothrow) TreeNode();
@@ -81,8 +81,8 @@ int AddLeftNode (TreeNode* n)
 		assert( n != NULL ) ; // retirado se ASSERT_DEBUG não definido
 	#endif
 
-	int leaf = 1;
-	int not_leaf = 0;
+	const unsigned int leaf = 1;
+	const unsigned int not_leaf = 0;
 	if(n->left_node == NULL)
 	{
 		n->left_node = new (std::nothrow) TreeNode();
@@ -112,7 +112,7 @@ int DeleteNode (TreeNode** n)
 		assert( *n != NULL ) ;
 	#endif
 
-	int leaf = 1;
+	const unsigned int leaf = 1;
 	TreeNode* father_node = (*n)->father_node;
 	if((*n)->left_node == NULL && (*n)->right_node == NULL)
 	{
@@ -136,7 +136,7 @@ int DeleteNode (TreeNode** n)
 		The function takes one argument returning an integer value. \n
 		It makes successive calls of function DeleteNode().
 		\param n a TreeNode type pointer of pointer.
-		\return The state of the operation, 0 if it was successful, another value if it wasn't.
+		\return The state of the operation, 0 if it was successful, another positive value if it wasn't.
 		\pre "n" must have been previously alocated. 
 		\sa DeleteNode()
 */
@@ -149,7 +149,7 @@ int DeleteSubtree (TreeNode** n)
 		assert( *n != NULL ) ;
 	#endif
 
-	int error = 0;
+	unsigned int error = 0;
 
 	if ((*n)->father_node != NULL) // Caso não for a raiz da árvore
 	{
@@ -177,7 +177,7 @@ int DeleteSubtree (TreeNode** n)
 		The function takes one argument returning an integer value. \n
 		It makes successive calls of function DeleteNode() and DeleteSubtree().
 		\param t a Tree type pointer.
-		\return The state of the operation, 0 if it was successful, another value if it wasn't.
+		\return The state of the operation, 0 if it was successful, another positive value if it wasn't.
 		\pre "t" must have been previously alocated. 
 		\sa DeleteNode() DeleteSubtree()
 */
@@ -189,7 +189,7 @@ int DeleteTree (Tree* t)
 		assert( t != NULL ) ; // retirado se ASSERT_DEBUG não definido
 	#endif
 
-	int error = 0;
+	unsigned int error = 0;
 
 	if (t->root->left_node != NULL)
 		error += DeleteSubtree (&(t->root->left_node));
@@ -227,7 +227,7 @@ void ChangeNodeData (TreeNode* n, std::string s)
 		It saves the questions and answers contained in the tree in a text file calling the function WriteTree to transform the data of the tree in to a string.
 		\param t a Tree type pointer.
 		\param file_name a string containing the name of the text file. 
-		\return The state of the operation, 0 if it was successful, another value if it wasn't.
+		\return The state of the operation, 0 if it was successful, another positive value if it wasn't.
 		\pre "t" and its element "t->root" must have been previously alocated. 
 		\sa WriteTree()
 */
@@ -240,7 +240,7 @@ int SaveTree (Tree* t, std::string file_name)
 		assert( t->root != NULL );
 	#endif
 
-	int error = 0;
+	unsigned int error = 0;
 	std::string my_tree;
 	std::ofstream my_file;
 	my_file.open (file_name, std::ios::out | std::ios::trunc);
@@ -262,7 +262,7 @@ int SaveTree (Tree* t, std::string file_name)
 		It converts the questions and answers contained in the tree in a string using dividers and leaf indicators. 
 		\param n a TreeNode type pointer.
 		\param my_tree a string pointer for the string that will contain the transformed tree. 
-		\return The state of the operation, 0 if it was successful, another value if it wasn't.
+		\return The state of the operation, 0 if it was successful, another positive value if it wasn't.
 		\pre "n" must have been previously alocated. 
 */
 
@@ -273,7 +273,7 @@ int WriteTree (TreeNode* n, std::string* my_tree)
 		assert( n != NULL ) ; // retirado se ASSERT_DEBUG não definido
 	#endif
 
-	int not_leaf = 0;
+	const unsigned int not_leaf = 0;
 
 	//Assertiva de estrutura
 	#ifdef ASSERT_DEBUG // retirado se ASSERT_DEBUG não definido
@@ -289,8 +289,8 @@ int WriteTree (TreeNode* n, std::string* my_tree)
 		}
 	#endif	
 
-	int leaf = 1;
-	int error = 0;
+	const unsigned int leaf = 1;
+	unsigned int error = 0;
 	std::string old_my_tree = *my_tree;
 	const char divider = '|';
 	const char leaf_indicator = '#';
@@ -326,7 +326,7 @@ int WriteTree (TreeNode* n, std::string* my_tree)
 		It loads the questions and answers contained in a text file calling the function ReadTree to transform the data of file in to a tree.
 		\param t a Tree type pointer.
 		\param file_name a string containing the name of the text file. 
-		\return The state of the operation, 0 if it was successful, another value if it wasn't.
+		\return The state of the operation, 0 if it was successful, another positive value if it wasn't.
 		\pre "t" and its element "t->root" must have been previously alocated. 
 		\sa ReadTree()
 */
@@ -339,8 +339,8 @@ int LoadTree (Tree* t, std::string file_name)
 		assert( t->root != NULL );
 	#endif
 
-	int error = 0;
-	int counter = 0;
+	unsigned int error = 0;
+	unsigned int counter = 0;
 	char character;
 	std::string my_tree;
 	std::ifstream my_file;
@@ -373,7 +373,7 @@ int LoadTree (Tree* t, std::string file_name)
 		\sa AddLeftNode() AddRightNode()
 */
 
-int ReadTree (TreeNode* n, std::string* my_tree, int* counter)
+int ReadTree (TreeNode* n, std::string* my_tree, unsigned int* counter)
 {
 	//Assertiva de entrada
 	#ifdef ASSERT_DEBUG
@@ -381,9 +381,9 @@ int ReadTree (TreeNode* n, std::string* my_tree, int* counter)
 		assert ( counter != NULL );
 	#endif
 
-	int leaf = 1;
-	int not_leaf = 0;
-	int error = 0;
+	const unsigned int leaf = 1;
+	const unsigned int not_leaf = 0;
+	unsigned int error = 0;
 	std::string old_message = n->message;
 	const char divider = '|';
 	const char leaf_indicator = '#';
@@ -443,7 +443,7 @@ int GenericTree (Tree* t)
 		assert( t != NULL ) ; // retirado se ASSERT_DEBUG não definido
 	#endif
 
-	int error = 0;
+	unsigned int error = 0;
 	error += CreateTree (t);
 	ChangeNodeData (t->root, "Voce esta pensando em uma pessoa/personagem?");
 

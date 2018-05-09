@@ -167,7 +167,7 @@ Assertivas de saida: A saida deve ser 0 se a operacao foi computada e outro valo
 
 Interface explicita: Parametros
 */
-int ReadTree (TreeNode* n, std::string* my_tree, int* counter);
+int ReadTree (TreeNode* n, std::string* my_tree, unsigned int* counter);
 
 /*GenericTree
 Contrato na especificacao: A arvore deve ser binaria.

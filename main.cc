@@ -32,9 +32,9 @@
 int main ()
 {	
 	int error;
-	int jogar_novamente = 1;
-	int leaf = 1;
-	int not_leaf = 0;
+	unsigned int jogar_novamente = 1;
+	const unsigned int leaf = 1;
+	const unsigned int not_leaf = 0;
 	
 	while (jogar_novamente == 1)
 	{
