@@ -31,13 +31,14 @@
 
 int main ()
 {	
-	int error = 1;
+	int error;
 	int jogar_novamente = 1;
 	int leaf = 1;
 	int not_leaf = 0;
 	
 	while (jogar_novamente == 1)
 	{
+		error = 1;
 		int repeter; // -1 quando for para repetir o mesmo loop
 		std::string answer;
 		tree::Tree t;

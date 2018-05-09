@@ -1,6 +1,8 @@
+#define ASSERT_DEBUG
 #include "../include/jogo_interface.h"
 
 #include <stdlib.h>
+#include <assert.h>
 #include <iostream>
 
 namespace tree {
@@ -11,11 +13,17 @@ namespace tree {
 		It gives the user the option of loading a tree (game) using LoadTree() or creating a Default using GenericTree().
 		\param t a Tree type pointer.
 		\return The state of the operation, 0 if it was successful, -1 if the command wasn't valid and another one if it wasn't successful.
+		\pre "t" must have been previously alocated. 
 		\sa LoadTree() GenericTree() CreateTree()
 */
 
 int StartTree (Tree *t)
 {
+	//Assertiva de entrada
+	#ifdef ASSERT_DEBUG
+		assert( t != NULL ) ; // retirado se ASSERT_DEBUG não definido
+	#endif
+
 	int error = 0;
 	std::string option;
 	std::string file_name;
@@ -66,14 +74,35 @@ int StartTree (Tree *t)
 		\param answer a string that indicates the answer given by the user.
 		\return The state of the operation, 0 if it was successful, -1 if the command wasn't valid or the same tree node needs to
 		be processed again, -2 if the game ended with the user winning and another one if it wasn't successful.
+		\pre "current_location" must have been previously alocated.
 		\sa OptionsQuestion() OptionsAnswer() AddRightNode() AddLeftNode() ChangeNodeData()
 */
 
 int AnswerInterpreter (TreeNode **current_location, std::string answer)
 {
-	int error = 0;
 	int leaf = 1;
 	int not_leaf = 0;
+	//Assertiva de entrada
+	#ifdef ASSERT_DEBUG
+		assert( current_location != NULL ) ;
+		assert( (*current_location) != NULL ) ; // retirado se ASSERT_DEBUG não definido
+	#endif
+
+	//Assertiva de estrutura
+	#ifdef ASSERT_DEBUG // retirado se ASSERT_DEBUG não definido
+		if ((*current_location)->defining_element == not_leaf)
+		{
+			assert( (*current_location)->right_node != NULL ) ;
+			assert( (*current_location)->left_node != NULL ) ;
+		}
+		else 
+		{
+			assert( (*current_location)->right_node == NULL ) ;
+			assert( (*current_location)->left_node == NULL ) ;
+		}
+	#endif	
+
+	int error = 0;
 	std::string new_element;
 	std::string new_question;
 	TreeNode* old_location = *current_location;
@@ -124,7 +153,7 @@ int AnswerInterpreter (TreeNode **current_location, std::string answer)
 
 			while ((*current_location)->defining_element == leaf)
 			{
-				std::cout << "\n$$$$$ Qual seria a sua resposta a essas pergunta? (Sim/Nao) $$$$$\n\n";
+				std::cout << "\n$$$$$ Qual seria a sua resposta a essa pergunta? (Sim/Nao) $$$$$\n\n";
 				std::cin >> answer;
 				getchar();
 
@@ -177,11 +206,17 @@ int AnswerInterpreter (TreeNode **current_location, std::string answer)
 		It rewrites a existent question using the function ChangeNodeData().
 		\param current_location a TreeNode type pointer.
 		\return void.
+		\pre "current_location" must have been previously alocated.
 		\sa ChangeNodeData()
 */
 
 void RewriteQuestion (TreeNode* current_location)
 {
+	//Assertiva de entrada
+	#ifdef ASSERT_DEBUG
+		assert( current_location != NULL ) ; // retirado se ASSERT_DEBUG não definido
+	#endif
+
 	int repeter = 1;
 	std::string answer;
 	while (repeter)
@@ -219,11 +254,17 @@ void RewriteQuestion (TreeNode* current_location)
 		\param current_location a TreeNode type pointer.
 		\return The state of the operation, 0 if it was successful, -1 if the operation isn't allowed and 
 		the node needs to be processed again ,and another one if it wasn't successful.
+		\pre "current_location" must have been previously alocated.
 		\sa ChangeNodeData() DeleteSubtree()
 */
 
 int DeleteQuestion (TreeNode* current_location)
 {
+	//Assertiva de entrada
+	#ifdef ASSERT_DEBUG
+		assert( current_location != NULL ) ; // retirado se ASSERT_DEBUG não definido
+	#endif
+
 	int error = 0;
 	int leaf = 1;
 	int repeter = 1;
@@ -278,11 +319,17 @@ int DeleteQuestion (TreeNode* current_location)
 		It rewrites a existent guess using the function ChangeNodeData().
 		\param current_location a TreeNode type pointer.
 		\return void.
+		\pre "current_location" must have been previously alocated.
 		\sa ChangeNodeData() DeleteSubtree()
 */
 
 void RewriteAnswer (TreeNode* current_location)
 {
+	//Assertiva de entrada
+	#ifdef ASSERT_DEBUG
+		assert( current_location != NULL ) ; // retirado se ASSERT_DEBUG não definido
+	#endif
+
 	int repeter = 1;
 	std::string answer;
 	while (repeter)
@@ -318,25 +365,31 @@ void RewriteAnswer (TreeNode* current_location)
 		It gives the user the possibility to delete or rewrite the question ,or to simply resume the game.
 		\param current_location a TreeNode type pointer.
 		\return The state of the operation, 0 if it was successful, -1 if the node needs to be processed again (resume) and another one if it wasn't successful.
+		\pre "current_location" must have been previously alocated.
 		\sa DeleteQuestion() RewriteQuestion()
 */
 
 int OptionsQuestion (TreeNode* current_location)
 {
+	//Assertiva de entrada
+	#ifdef ASSERT_DEBUG
+		assert( current_location != NULL ) ; // retirado se ASSERT_DEBUG não definido
+	#endif
+
 	int error = 0;
 	std::string answer;
 	int repeter = 1;
 
-	std::cout << "\n*******************************\n";
-	std::cout << " Deletar a pergunta: (Deletar)\n";
-	std::cout << " Modificar a pergunta: (Escrever)\n";
-	std::cout << " Retomar o jogo: (Voltar)\n";
-	std::cout << "*********************************\n\n";
-
-	std::cin >> answer;
-
 	while (repeter)
 	{
+
+		std::cout << "\n*******************************\n";
+		std::cout << " Deletar a pergunta: (Deletar)\n";
+		std::cout << " Modificar a pergunta: (Escrever)\n";
+		std::cout << " Retomar o jogo: (Voltar)\n";
+		std::cout << "*********************************\n\n";
+
+		std::cin >> answer;
 
 		if ( answer == "Deletar" || answer == "deletar" || answer == "DELETAR" )
 		{
@@ -371,24 +424,31 @@ int OptionsQuestion (TreeNode* current_location)
 		It gives the user the possibility to rewrite the guess or to simply resume the game.
 		\param current_location a TreeNode type pointer.
 		\return The state of the operation, 0 if it was successful, -1 if the node needs to be processed again (resume) and another one if it wasn't successful.
+		\pre "current_location" must have been previously alocated.
 		\sa RewriteAnswer()
 */
 
 int OptionsAnswer (TreeNode* current_location)
 {
+	//Assertiva de entrada
+	#ifdef ASSERT_DEBUG
+		assert( current_location != NULL ) ; // retirado se ASSERT_DEBUG não definido
+	#endif
+
 	int error = 0;
 	std::string answer;
 	int repeter = 1;
 
-	std::cout << "\n*******************************\n";
-	std::cout << " Modificar a resposta: (Escrever)\n";
-	std::cout << " Retomar o jogo: (Voltar)\n";
-	std::cout << "*********************************\n\n";
-
-	std::cin >> answer;
-
 	while (repeter)
 	{
+		std::cout << "\n*******************************\n";
+		std::cout << " Modificar a resposta: (Escrever)\n";
+		std::cout << " Retomar o jogo: (Voltar)\n";
+		std::cout << "*********************************\n\n";
+
+		std::cin >> answer;
+
+
 		if ( answer == "Escrever" || answer == "escrever" || answer == "ESCREVER" )
 		{
 			repeter = 0;
@@ -416,11 +476,17 @@ int OptionsAnswer (TreeNode* current_location)
 		It gives the user the possibility to save the used and possibly modified tree (game) in a text file using the function SaveTree().
 		\param t a Tree type pointer.
 		\return The state of the operation, 0 if it was successful and another one if it wasn't.
+		\pre "t" must have been previously alocated. 
 		\sa SaveTree()
 */
 
 int SavingInterface (Tree* t)
 {
+	//Assertiva de entrada
+	#ifdef ASSERT_DEBUG
+		assert( t != NULL ) ; // retirado se ASSERT_DEBUG não definido
+	#endif
+
 	int repeter = 1;
 	int error = 0;
 	std::string file_name, answer;
@@ -446,13 +512,13 @@ int SavingInterface (Tree* t)
 		{
 			int repeter_2 = 1;
 
-			std::cout << "\n **** Voce tem certeza que nao quer salvar o jogo? (Sim/Nao) \n"; 
-			std::cout << "### Lembre-se que todas as perguntas e adivinhacoes serao perdidas.\n\n";		
-			std::cin >> answer;
-			getchar();
-
 			while (repeter_2)
 			{
+				std::cout << "\n **** Voce tem certeza que nao quer salvar o jogo? (Sim/Nao) \n"; 
+				std::cout << "### Lembre-se que todas as perguntas e adivinhacoes serao perdidas.\n\n";		
+				std::cin >> answer;
+				getchar();
+
 				if ( answer == "Sim" || answer == "sim" || answer == "SIM" )
 				{
 					repeter_2 = 0;
